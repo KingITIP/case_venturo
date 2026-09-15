@@ -22,12 +22,12 @@ export type Template = {
 export const BLANK_TEMPLATE_ID = 'blank';
 
 export const templateCategories: { value: TemplateCategory | 'all'; labelKey: string }[] = [
-  { value: 'all', labelKey: 'build.categories.all' },
-  { value: 'profile', labelKey: 'build.categories.profile' },
-  { value: 'landing', labelKey: 'build.categories.landing' },
-  { value: 'form', labelKey: 'build.categories.form' },
-  { value: 'portfolio', labelKey: 'build.categories.portfolio' },
-  { value: 'sectioned', labelKey: 'build.categories.sectioned' },
+  { value: 'all', labelKey: 'categories.all' },
+  { value: 'profile', labelKey: 'categories.profile' },
+  { value: 'landing', labelKey: 'categories.landing' },
+  { value: 'form', labelKey: 'categories.form' },
+  { value: 'portfolio', labelKey: 'categories.portfolio' },
+  { value: 'sectioned', labelKey: 'categories.sectioned' },
 ];
 
 // ----------------------------------------------------------------------
@@ -35,7 +35,7 @@ export const templateCategories: { value: TemplateCategory | 'all'; labelKey: st
 export const templateItems: Template[] = [
   {
     id: 'dummy-profile',
-    nameKey: 'build.templates.dummyProfile',
+    nameKey: 'templates.dummyProfile',
     category: 'profile',
     icon: 'solar:user-rounded-bold',
     gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -43,7 +43,7 @@ export const templateItems: Template[] = [
   },
   {
     id: 'dummy-landing-1',
-    nameKey: 'build.templates.dummyLanding1',
+    nameKey: 'templates.dummyLanding1',
     category: 'landing',
     icon: 'solar:monitor-bold',
     gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -51,7 +51,7 @@ export const templateItems: Template[] = [
   },
   {
     id: 'dummy-landing-2',
-    nameKey: 'build.templates.dummyLanding2',
+    nameKey: 'templates.dummyLanding2',
     category: 'landing',
     icon: 'solar:pen-bold',
     gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
@@ -59,7 +59,7 @@ export const templateItems: Template[] = [
   },
   {
     id: 'dummy-form',
-    nameKey: 'build.templates.dummyForm',
+    nameKey: 'templates.dummyForm',
     category: 'form',
     icon: 'solar:chat-round-dots-bold',
     gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
@@ -67,7 +67,7 @@ export const templateItems: Template[] = [
   },
   {
     id: 'dummy-portfolio',
-    nameKey: 'build.templates.dummyPortfolio',
+    nameKey: 'templates.dummyPortfolio',
     category: 'portfolio',
     icon: 'solar:gallery-wide-bold',
     gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
@@ -75,7 +75,7 @@ export const templateItems: Template[] = [
   },
   {
     id: 'dummy-showcase',
-    nameKey: 'build.templates.dummyShowcase',
+    nameKey: 'templates.dummyShowcase',
     category: 'sectioned',
     icon: 'solar:palette-bold',
     gradient: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
@@ -83,7 +83,7 @@ export const templateItems: Template[] = [
   },
   {
     id: 'dummy-sectioned',
-    nameKey: 'build.templates.dummySectioned',
+    nameKey: 'templates.dummySectioned',
     category: 'sectioned',
     icon: 'solar:box-minimalistic-bold',
     gradient: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',

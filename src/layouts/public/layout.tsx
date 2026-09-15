@@ -46,11 +46,9 @@ export function PublicLayout({
     };
 
     const headerSlots: HeaderSectionProps['slots'] = {
-      leftArea: (
-        <Link component={RouterLink} href={paths.public.landing} color="inherit" underline="none">
-          <BrandLogo />
-        </Link>
-      ),
+      // BrandLogo sudah render <a> (RouterLink ke '/') — jangan bungkus dengan <Link>/<a> lain
+      // (nested <a> = hydration error).
+      leftArea: <BrandLogo href={paths.public.landing} />,
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
           <Link

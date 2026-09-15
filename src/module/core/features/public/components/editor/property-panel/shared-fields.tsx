@@ -16,9 +16,9 @@ type FieldProps = {
 };
 
 const ALIGN_OPTIONS = [
-  { value: 'left', key: 'editor.fields.alignLeft' },
-  { value: 'center', key: 'editor.fields.alignCenter' },
-  { value: 'right', key: 'editor.fields.alignRight' },
+  { value: 'left', key: 'fields.alignLeft' },
+  { value: 'center', key: 'fields.alignCenter' },
+  { value: 'right', key: 'fields.alignRight' },
 ] as const;
 
 function AlignSelect({ node }: FieldProps) {
@@ -31,7 +31,7 @@ function AlignSelect({ node }: FieldProps) {
       select
       fullWidth
       size="small"
-      label={t('editor.fields.align')}
+      label={t('fields.align')}
       value={align}
       onChange={(e) =>
         updateComponentProps(node.id, { align: e.target.value as 'left' | 'center' | 'right' })

@@ -1,3 +1,5 @@
+import type { MouseEvent } from 'react';
+
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
@@ -27,6 +29,13 @@ export function SelectionToolbar({
 }: SelectionToolbarProps) {
   const { t } = useTranslate('editor');
 
+  // Klik tombol toolbar tidak boleh memicu seleksi ulang / clearSelection
+  // pada frame/canvas di bawahnya.
+  const stop = (handler: () => void) => (event: MouseEvent) => {
+    event.stopPropagation();
+    handler();
+  };
+
   return (
     <Box
       sx={{
@@ -48,7 +57,7 @@ export function SelectionToolbar({
         <span>
           <IconButton
             size="small"
-            onClick={onMoveUp}
+            onClick={stop(onMoveUp)}
             disabled={!canMoveUp}
             aria-label={t('actions.moveUp')}
           >
@@ -61,7 +70,7 @@ export function SelectionToolbar({
         <span>
           <IconButton
             size="small"
-            onClick={onMoveDown}
+            onClick={stop(onMoveDown)}
             disabled={!canMoveDown}
             aria-label={t('actions.moveDown')}
           >
@@ -71,7 +80,7 @@ export function SelectionToolbar({
       </Tooltip>
 
       <Tooltip title={t('actions.duplicate')}>
-        <IconButton size="small" onClick={onDuplicate} aria-label={t('actions.duplicate')}>
+        <IconButton size="small" onClick={stop(onDuplicate)} aria-label={t('actions.duplicate')}>
           <Iconify icon="solar:copy-bold" width={18} />
         </IconButton>
       </Tooltip>
@@ -79,7 +88,7 @@ export function SelectionToolbar({
       <Tooltip title={t('actions.remove')}>
         <IconButton
           size="small"
-          onClick={onRemove}
+          onClick={stop(onRemove)}
           aria-label={t('actions.remove')}
           sx={{ color: 'error.main' }}
         >

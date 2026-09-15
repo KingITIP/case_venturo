@@ -59,20 +59,20 @@ export type EditorState = {
 // ----------------------------------------------------------------------
 
 export const editorPaletteItems: EditorComponentDefinition[] = [
-  { type: 'text', labelKey: 'editor.palette.items.text', icon: 'solar:letter-bold' },
-  { type: 'heading', labelKey: 'editor.palette.items.heading', icon: 'solar:pen-bold' },
+  { type: 'text', labelKey: 'palette.items.text', icon: 'solar:letter-bold' },
+  { type: 'heading', labelKey: 'palette.items.heading', icon: 'solar:pen-bold' },
   {
     type: 'button',
-    labelKey: 'editor.palette.items.button',
+    labelKey: 'palette.items.button',
     icon: 'solar:tag-horizontal-bold-duotone',
   },
-  { type: 'image', labelKey: 'editor.palette.items.image', icon: 'solar:gallery-wide-bold' },
+  { type: 'image', labelKey: 'palette.items.image', icon: 'solar:gallery-wide-bold' },
   {
     type: 'container',
-    labelKey: 'editor.palette.items.container',
+    labelKey: 'palette.items.container',
     icon: 'solar:box-minimalistic-bold',
   },
-  { type: 'divider', labelKey: 'editor.palette.items.divider', icon: 'eva:minus-circle-fill' },
+  { type: 'divider', labelKey: 'palette.items.divider', icon: 'eva:minus-circle-fill' },
 ];
 
 // ----------------------------------------------------------------------

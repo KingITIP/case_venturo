@@ -69,7 +69,7 @@ export function PreviewMode({ components, onExit }: PreviewModeProps) {
           }}
         >
           {components.length > 0 ? (
-            <CanvasContent components={components} selectedId={null} />
+            <CanvasContent components={components} selectedId={null} interactive={false} />
           ) : (
             <Box sx={{ textAlign: 'center', py: 8, color: 'text.disabled' }}>
               <Typography variant="body2">{t('preview.empty')}</Typography>
