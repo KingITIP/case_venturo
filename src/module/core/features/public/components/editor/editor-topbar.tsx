@@ -9,23 +9,34 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { useTranslate } from 'src/locales';
-import { toast } from 'src/shared/ui/snackbar';
 import { Iconify } from 'src/shared/ui/iconify';
 
 // ----------------------------------------------------------------------
 
 type EditorTopbarProps = {
   siteId?: string;
+  mode: 'edit' | 'preview';
+  saving: boolean;
+  saved: boolean;
+  onTogglePreview: () => void;
+  onSave: () => void;
   onTogglePalette: () => void;
   onToggleProperties: () => void;
 };
 
-export function EditorTopbar({ siteId, onTogglePalette, onToggleProperties }: EditorTopbarProps) {
+export function EditorTopbar({
+  siteId,
+  mode,
+  saving,
+  saved,
+  onTogglePreview,
+  onSave,
+  onTogglePalette,
+  onToggleProperties,
+}: EditorTopbarProps) {
   const { t } = useTranslate('editor');
 
-  const handleComingSoon = () => {
-    toast.info(t('topbar.comingSoon'));
-  };
+  const saveLabel = saved ? t('topbar.saved') : t('topbar.save');
 
   return (
     <Box
@@ -83,20 +94,23 @@ export function EditorTopbar({ siteId, onTogglePalette, onToggleProperties }: Ed
 
         <Button
           size="small"
-          variant="outlined"
+          variant={mode === 'preview' ? 'contained' : 'outlined'}
           startIcon={<Iconify icon="solar:eye-bold" width={18} />}
-          onClick={handleComingSoon}
+          onClick={onTogglePreview}
         >
-          {t('topbar.preview')}
+          {mode === 'preview' ? t('topbar.exitPreview') : t('topbar.preview')}
         </Button>
 
         <Button
           size="small"
           variant="contained"
-          startIcon={<Iconify icon="solar:check-circle-bold" width={18} />}
-          onClick={handleComingSoon}
+          color={saved ? 'success' : 'primary'}
+          startIcon={saved ? <Iconify icon="solar:check-circle-bold" width={18} /> : undefined}
+          loading={saving}
+          loadingIndicator={t('topbar.saving')}
+          onClick={onSave}
         >
-          {t('topbar.save')}
+          {saveLabel}
         </Button>
 
         {/* Mobile: toggle properties */}

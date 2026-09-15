@@ -1,4 +1,10 @@
-import type { EditorState, ComponentNode, EditorComponentType } from '../types/editor';
+import type {
+  EditorMode,
+  EditorState,
+  ComponentNode,
+  ComponentProps,
+  EditorComponentType,
+} from '../types/editor';
 
 import { useMemo, useState, useCallback, createContext } from 'react';
 
@@ -14,6 +20,8 @@ export type EditorContextValue = EditorState & {
   duplicateComponent: (id: string) => void;
   moveComponent: (id: string, direction: 'up' | 'down') => void;
   clearSelection: () => void;
+  updateComponentProps: (id: string, partialProps: Partial<ComponentProps>) => void;
+  setMode: (mode: EditorMode) => void;
 };
 
 // ----------------------------------------------------------------------
@@ -23,6 +31,7 @@ export const EditorContext = createContext<EditorContextValue | undefined>(undef
 const INITIAL_STATE: EditorState = {
   components: [],
   selectedId: null,
+  mode: 'edit',
 };
 
 /** Id unik komponen — tidak pernah bentrok (timestamp + counter + random). */
@@ -37,7 +46,7 @@ export function useEditorReducer() {
   const [state, setState] = useState<EditorState>(INITIAL_STATE);
 
   const loadTemplate = useCallback((components: ComponentNode[] | null) => {
-    setState({ components: components ?? [], selectedId: null });
+    setState({ components: components ?? [], selectedId: null, mode: 'edit' });
   }, []);
 
   const select = useCallback((id: string | null) => {
@@ -59,6 +68,7 @@ export function useEditorReducer() {
   const addComponent = useCallback((type: EditorComponentType, props?: ComponentNode['props']) => {
     const node: ComponentNode = { id: createComponentId(), type, props: props ?? {} };
     setState((prev) => ({
+      ...prev,
       components: [...prev.components, node],
       selectedId: node.id,
     }));
@@ -66,6 +76,7 @@ export function useEditorReducer() {
 
   const removeComponent = useCallback((id: string) => {
     setState((prev) => ({
+      ...prev,
       components: prev.components.filter((c) => c.id !== id),
       selectedId: prev.selectedId === id ? null : prev.selectedId,
     }));
@@ -83,7 +94,7 @@ export function useEditorReducer() {
       };
       const next = [...prev.components];
       next.splice(index + 1, 0, copy);
-      return { components: next, selectedId: copy.id };
+      return { ...prev, components: next, selectedId: copy.id };
     });
   }, []);
 
@@ -99,6 +110,19 @@ export function useEditorReducer() {
     });
   }, []);
 
+  const updateComponentProps = useCallback((id: string, partialProps: Partial<ComponentProps>) => {
+    setState((prev) => ({
+      ...prev,
+      components: prev.components.map((c) =>
+        c.id === id ? { ...c, props: { ...(c.props ?? {}), ...partialProps } } : c
+      ),
+    }));
+  }, []);
+
+  const setMode = useCallback((mode: EditorMode) => {
+    setState((prev) => ({ ...prev, mode }));
+  }, []);
+
   const value = useMemo<EditorContextValue>(
     () => ({
       ...state,
@@ -111,6 +135,8 @@ export function useEditorReducer() {
       duplicateComponent,
       moveComponent,
       clearSelection,
+      updateComponentProps,
+      setMode,
     }),
     [
       state,
@@ -123,6 +149,8 @@ export function useEditorReducer() {
       duplicateComponent,
       moveComponent,
       clearSelection,
+      updateComponentProps,
+      setMode,
     ]
   );
 

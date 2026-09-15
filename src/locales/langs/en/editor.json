@@ -6,12 +6,30 @@
     "back": "Back",
     "siteName": "Site",
     "preview": "Preview",
+    "exitPreview": "Back to Edit",
     "save": "Save",
+    "saving": "Saving...",
+    "saved": "Saved ✓",
     "undo": "Undo",
     "redo": "Redo",
     "togglePalette": "Open components panel",
     "toggleProperties": "Open properties panel",
     "comingSoon": "This feature will be available in a later iteration."
+  },
+  "properties": {
+    "title": "Properties",
+    "emptyTitle": "Select a component to edit its properties",
+    "emptyDescription": "Click a component on the canvas to view and edit its properties here.",
+    "open": "Open properties panel",
+    "close": "Close properties panel",
+    "noContent": "This component has no text content yet.",
+    "fullFormComingSoon": "Full property form will be available in a later iteration."
+  },
+  "actions": {
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "duplicate": "Duplicate",
+    "remove": "Remove"
   },
   "palette": {
     "title": "Elements",
@@ -30,20 +48,40 @@
     "emptyDescription": "Or pick a template on the /build page as a starting point.",
     "pageLabel": "Page"
   },
-  "properties": {
-    "title": "Properties",
-    "emptyTitle": "Select a component to edit its properties",
-    "emptyDescription": "Click a component on the canvas to view and edit its properties here.",
-    "open": "Open properties panel",
-    "close": "Close properties panel",
-    "noContent": "This component has no text content yet.",
-    "fullFormComingSoon": "Full property form will be available in a later iteration."
+  "fields": {
+    "text": "Text",
+    "label": "Label",
+    "href": "Link (href)",
+    "src": "Image URL",
+    "srcHelper": "Leave empty to use the default placeholder.",
+    "alt": "Alternative text (alt)",
+    "align": "Alignment",
+    "alignLeft": "Left",
+    "alignCenter": "Center",
+    "alignRight": "Right",
+    "level": "Size",
+    "levelH1": "Large (H1)",
+    "levelH2": "Medium (H2)",
+    "levelH3": "Small (H3)",
+    "variant": "Variant",
+    "variantFilled": "Filled",
+    "variantOutline": "Outline",
+    "variantLink": "Text link",
+    "ratio": "Ratio",
+    "ratioWide": "Wide (16:9)",
+    "ratioClassic": "Classic (4:3)",
+    "ratioSquare": "Square (1:1)",
+    "bgcolor": "Background",
+    "bgTransparent": "Transparent",
+    "bgMuted": "Muted",
+    "thickness": "Thickness",
+    "thicknessThin": "Thin",
+    "thicknessMedium": "Medium"
   },
-  "actions": {
-    "moveUp": "Move up",
-    "moveDown": "Move down",
-    "duplicate": "Duplicate",
-    "remove": "Remove"
+  "preview": {
+    "header": "Page Preview",
+    "exit": "Back to Edit",
+    "empty": "The page is still empty. Add components from the editor."
   },
   "renderer": {
     "placeholder": {
@@ -54,6 +92,8 @@
     "containerLabel": "Container — child components go here"
   },
   "message": {
-    "unknownId": "Template not found, starting with a blank page."
+    "unknownId": "Template not found, starting with a blank page.",
+    "saveSuccess": "Saved! Your changes are safe in this browser.",
+    "saveError": "Failed to save. Check your browser storage."
   }
 }
