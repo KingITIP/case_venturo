@@ -11,13 +11,25 @@ import { ComponentRenderer } from './component-renderer';
 type CanvasContentProps = {
   components: ComponentNode[];
   selectedId: string | null;
+  /** false = render bersih (preview), tanpa frame/toolbar/interaksi. */
+  interactive?: boolean;
 };
 
 /** Susun komponen vertikal; tiap node bisa dipilih & dikontrol (reorder/duplikat/hapus). */
-export function CanvasContent({ components, selectedId }: CanvasContentProps) {
+export function CanvasContent({ components, selectedId, interactive = true }: CanvasContentProps) {
   const { select, moveComponent, duplicateComponent, removeComponent } = useEditor();
 
   if (components.length === 0) return null;
+
+  if (!interactive) {
+    return (
+      <Stack spacing={3} sx={{ width: '100%' }}>
+        {components.map((node) => (
+          <ComponentRenderer key={node.id} node={node} />
+        ))}
+      </Stack>
+    );
+  }
 
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>

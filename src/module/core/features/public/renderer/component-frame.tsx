@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, MouseEvent } from 'react';
 
 import Box from '@mui/material/Box';
 
@@ -30,9 +30,16 @@ export function ComponentFrame({
   onRemove,
   children,
 }: ComponentFrameProps) {
+  // stopPropagation: klik pada komponen tidak boleh memicu clearSelection
+  // pada canvas di bawahnya (seleksi langsung hilang).
+  const handleClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    onSelect();
+  };
+
   return (
     <Box
-      onClick={onSelect}
+      onClick={handleClick}
       sx={{
         position: 'relative',
         borderRadius: 1,

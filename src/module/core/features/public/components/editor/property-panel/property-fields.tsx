@@ -12,31 +12,31 @@ import { useEditor } from '../../../store/editor-provider';
 // ----------------------------------------------------------------------
 
 const LEVEL_OPTIONS = [
-  { value: 1, key: 'editor.fields.levelH1' },
-  { value: 2, key: 'editor.fields.levelH2' },
-  { value: 3, key: 'editor.fields.levelH3' },
+  { value: 1, key: 'fields.levelH1' },
+  { value: 2, key: 'fields.levelH2' },
+  { value: 3, key: 'fields.levelH3' },
 ] as const;
 
 const VARIANT_OPTIONS = [
-  { value: 'filled', key: 'editor.fields.variantFilled' },
-  { value: 'outline', key: 'editor.fields.variantOutline' },
-  { value: 'link', key: 'editor.fields.variantLink' },
+  { value: 'filled', key: 'fields.variantFilled' },
+  { value: 'outline', key: 'fields.variantOutline' },
+  { value: 'link', key: 'fields.variantLink' },
 ] as const;
 
 const BGMUTED_OPTIONS = [
-  { value: 'transparent', key: 'editor.fields.bgTransparent' },
-  { value: 'muted', key: 'editor.fields.bgMuted' },
+  { value: 'transparent', key: 'fields.bgTransparent' },
+  { value: 'muted', key: 'fields.bgMuted' },
 ] as const;
 
 const THICKNESS_OPTIONS = [
-  { value: 'thin', key: 'editor.fields.thicknessThin' },
-  { value: 'medium', key: 'editor.fields.thicknessMedium' },
+  { value: 'thin', key: 'fields.thicknessThin' },
+  { value: 'medium', key: 'fields.thicknessMedium' },
 ] as const;
 
 const RATIO_OPTIONS = [
-  { value: '16:9', key: 'editor.fields.ratioWide' },
-  { value: '4:3', key: 'editor.fields.ratioClassic' },
-  { value: '1:1', key: 'editor.fields.ratioSquare' },
+  { value: '16:9', key: 'fields.ratioWide' },
+  { value: '4:3', key: 'fields.ratioClassic' },
+  { value: '1:1', key: 'fields.ratioSquare' },
 ] as const;
 
 // ----------------------------------------------------------------------
@@ -55,7 +55,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
           <TextField
             fullWidth
             size="small"
-            label={t('editor.fields.text')}
+            label={t('fields.text')}
             value={props.text ?? ''}
             onChange={(e) => set({ text: e.target.value })}
           />
@@ -64,7 +64,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             select
             fullWidth
             size="small"
-            label={t('editor.fields.level')}
+            label={t('fields.level')}
             value={props.level ?? 2}
             onChange={(e) => set({ level: Number(e.target.value) as 1 | 2 | 3 })}
           >
@@ -85,7 +85,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             size="small"
             multiline
             minRows={3}
-            label={t('editor.fields.text')}
+            label={t('fields.text')}
             value={props.text ?? ''}
             onChange={(e) => set({ text: e.target.value })}
           />
@@ -99,14 +99,14 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
           <TextField
             fullWidth
             size="small"
-            label={t('editor.fields.label')}
+            label={t('fields.label')}
             value={props.label ?? ''}
             onChange={(e) => set({ label: e.target.value })}
           />
           <TextField
             fullWidth
             size="small"
-            label={t('editor.fields.href')}
+            label={t('fields.href')}
             value={props.href ?? '#'}
             onChange={(e) => set({ href: e.target.value })}
           />
@@ -114,7 +114,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             select
             fullWidth
             size="small"
-            label={t('editor.fields.variant')}
+            label={t('fields.variant')}
             value={props.variant ?? 'filled'}
             onChange={(e) => set({ variant: e.target.value as 'filled' | 'outline' | 'link' })}
           >
@@ -133,15 +133,15 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
           <TextField
             fullWidth
             size="small"
-            label={t('editor.fields.src')}
+            label={t('fields.src')}
             value={props.src ?? ''}
             onChange={(e) => set({ src: e.target.value })}
-            helperText={t('editor.fields.srcHelper')}
+            helperText={t('fields.srcHelper')}
           />
           <TextField
             fullWidth
             size="small"
-            label={t('editor.fields.alt')}
+            label={t('fields.alt')}
             value={props.alt ?? ''}
             onChange={(e) => set({ alt: e.target.value })}
           />
@@ -149,7 +149,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             select
             fullWidth
             size="small"
-            label={t('editor.fields.ratio')}
+            label={t('fields.ratio')}
             value={props.ratio ?? '16:9'}
             onChange={(e) => set({ ratio: e.target.value })}
           >
@@ -169,7 +169,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             select
             fullWidth
             size="small"
-            label={t('editor.fields.bgcolor')}
+            label={t('fields.bgcolor')}
             value={props.bgcolor ?? 'transparent'}
             onChange={(e) => set({ bgcolor: e.target.value as 'transparent' | 'muted' })}
           >
@@ -189,7 +189,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             select
             fullWidth
             size="small"
-            label={t('editor.fields.thickness')}
+            label={t('fields.thickness')}
             value={props.thickness ?? 'medium'}
             onChange={(e) => set({ thickness: e.target.value as 'thin' | 'medium' })}
           >

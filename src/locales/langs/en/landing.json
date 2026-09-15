@@ -10,100 +10,73 @@
   "footer": {
     "copyright": "Venturo Web Builder. All rights reserved."
   },
-  "landing": {
-    "hero": {
-      "badge": "One-page website builder",
-      "title": "Create a simple, responsive, and free one-page website",
-      "titleHighlight": "simple, responsive, and free",
-      "subtitle": "Start from a template or a blank page. Venturo Builder helps you create landing pages, profiles, portfolios, or any page — without writing code.",
-      "primaryCta": "Start Building",
-      "secondaryCta": "See How It Works",
-      "visual": {
-        "card1": "Landing",
-        "card2": "Profile",
-        "card3": "Form"
-      }
-    },
-    "demo": {
-      "badge": "Examples",
-      "title": "See it in action",
-      "subtitle": "A few examples of pages you can build in just minutes.",
-      "viewAll": "View All Templates",
-      "items": {
-        "landing": "Landing Page",
-        "profile": "Profile",
-        "form": "Form",
-        "portfolio": "Portfolio",
-        "showcase": "Showcase",
-        "landingVariant": "Landing Variant"
-      }
-    },
-    "features": {
-      "badge": "Features",
-      "title": "Why Venturo Builder?",
-      "subtitle": "Three main reasons to choose Venturo for your one-page needs.",
-      "items": {
-        "simple": {
-          "title": "Simple",
-          "description": "Start from a template or a blank page; build it yourself without the hassle."
-        },
-        "responsive": {
-          "title": "Responsive",
-          "description": "Looks great on every screen — from phone to desktop."
-        },
-        "free": {
-          "title": "Free",
-          "description": "Create up to 3 sites per account with core features, free forever."
-        }
-      }
-    },
-    "pricing": {
-      "badge": "Pricing",
-      "title": "Go Pro",
-      "subtitle": "Starting at $19/year. All the features to take your site to the next level.",
-      "planName": "Venturo Pro",
-      "price": "$19",
-      "pricePeriod": "/year",
-      "features": {
-        "customDomain": "Custom domain + SSL",
-        "moreSites": "Create more than 3 sites",
-        "forms": "Contact / signup / payment forms",
-        "widgets": "Widgets & embeds (Stripe, PayPal, etc.)",
-        "analytics": "Analytics (GA, Plausible, etc.)",
-        "noBranding": "No \"Made with Venturo\" branding"
-      },
-      "trialNote": "Try it free for 7 days",
-      "cta": "Choose Pro"
-    },
-    "closingCta": {
-      "title": "Ready to build something awesome?",
-      "subtitle": "Free to start. No credit card. No hassle.",
-      "cta": "Start Building"
-    },
-    "footer": {
-      "tagline": "A one-page website builder that is simple, responsive, and free.",
-      "links": {
-        "product": "Product",
-        "resources": "Resources",
-        "company": "Company"
-      },
-      "products": {
-        "build": "Build a Site",
-        "templates": "Templates",
-        "pricing": "Pricing"
-      },
-      "resourcesLink": {
-        "help": "Help",
-        "faqs": "FAQs",
-        "contact": "Contact"
-      },
-      "companyLink": {
-        "about": "About",
-        "login": "Sign In",
-        "signup": "Sign Up"
-      },
-      "copyright": "Venturo Web Builder. All rights reserved.",
-      "madeWith": "Made with ❤️ for one-page websites."
+  "hero": {
+    "badge": "One-page website builder",
+    "title": "Create a simple, responsive, and free one-page website",
+    "titleHighlight": "simple, responsive, and free",
+    "subtitle": "Start from a template or a blank page. Venturo Builder helps you create landing pages, profiles, portfolios, or any page — without writing code.",
+    "primaryCta": "Start Building",
+    "secondaryCta": "See How It Works",
+    "visual": {
+      "card1": "Landing",
+      "card2": "Profile",
+      "card3": "Form"
     }
+  },
+  "demo": {
+    "badge": "Examples",
+    "title": "See it in action",
+    "subtitle": "A few examples of pages you can build in just minutes.",
+    "viewAll": "View All Templates",
+    "items": {
+      "landing": "Landing Page",
+      "profile": "Profile",
+      "form": "Form",
+      "portfolio": "Portfolio",
+      "showcase": "Showcase",
+      "landingVariant": "Landing Variant"
+    }
+  },
+  "features": {
+    "badge": "Features",
+    "title": "Why Venturo Builder?",
+    "subtitle": "Three main reasons to choose Venturo for your one-page needs.",
+    "items": {
+      "simple": {
+        "title": "Simple",
+        "description": "Start from a template or a blank page; build it yourself without the hassle."
+      },
+      "responsive": {
+        "title": "Responsive",
+        "description": "Looks great on every screen — from phone to desktop."
+      },
+      "free": {
+        "title": "Free",
+        "description": "Create up to 3 sites per account with core features, free forever."
+      }
+    }
+  },
+  "pricing": {
+    "badge": "Pricing",
+    "title": "Go Pro",
+    "subtitle": "Starting at $19/year. All the features to take your site to the next level.",
+    "planName": "Venturo Pro",
+    "price": "$19",
+    "pricePeriod": "/year",
+    "features": {
+      "customDomain": "Custom domain + SSL",
+      "moreSites": "Create more than 3 sites",
+      "forms": "Contact / signup / payment forms",
+      "widgets": "Widgets & embeds (Stripe, PayPal, etc.)",
+      "analytics": "Analytics (GA, Plausible, etc.)",
+      "noBranding": "No \"Made with Venturo\" branding"
+    },
+    "trialNote": "Try it free for 7 days",
+    "cta": "Choose Pro"
+  },
+  "closingCta": {
+    "title": "Ready to build something awesome?",
+    "subtitle": "Free to start. No credit card. No hassle.",
+    "cta": "Start Building"
   }
 }
