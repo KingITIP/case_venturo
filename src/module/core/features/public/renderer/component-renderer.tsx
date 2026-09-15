@@ -60,6 +60,7 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
             color: 'primary.main',
             textAlign: alignMap[def.align ?? 'left'],
             display: 'inline-block',
+            pointerEvents: 'none',
           }}
         >
           {def.label || t('renderer.placeholder.button')}

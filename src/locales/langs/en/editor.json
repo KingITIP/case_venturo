@@ -35,7 +35,15 @@
     "emptyTitle": "Select a component to edit its properties",
     "emptyDescription": "Click a component on the canvas to view and edit its properties here.",
     "open": "Open properties panel",
-    "close": "Close properties panel"
+    "close": "Close properties panel",
+    "noContent": "This component has no text content yet.",
+    "fullFormComingSoon": "Full property form will be available in a later iteration."
+  },
+  "actions": {
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "duplicate": "Duplicate",
+    "remove": "Remove"
   },
   "renderer": {
     "placeholder": {

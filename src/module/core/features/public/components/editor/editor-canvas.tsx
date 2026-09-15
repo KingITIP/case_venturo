@@ -6,19 +6,29 @@ import Typography from '@mui/material/Typography';
 import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
-import { useEditorState } from '../../store/editor-provider';
 import { CanvasContent } from '../../renderer/canvas-content';
+import { useEditorShortcuts } from '../../hooks/use-editor-shortcuts';
+import { useEditor, useEditorState } from '../../store/editor-provider';
 
 // ----------------------------------------------------------------------
 
 export function EditorCanvas() {
   const { t } = useTranslate('editor');
   const { components, selectedId } = useEditorState();
+  const { clearSelection, removeComponent, duplicateComponent } = useEditor();
+
+  useEditorShortcuts({
+    selectedId,
+    onRemove: removeComponent,
+    onDuplicate: duplicateComponent,
+    onClear: clearSelection,
+  });
 
   return (
     <Box
       component="main"
       aria-label={t('canvas.pageLabel')}
+      onClick={clearSelection}
       sx={{
         flex: '1 1 auto',
         minWidth: 0,

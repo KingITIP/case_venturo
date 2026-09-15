@@ -5,18 +5,20 @@ import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
 
 import { useTranslate } from 'src/locales';
-import { toast } from 'src/shared/ui/snackbar';
 import { Iconify } from 'src/shared/ui/iconify';
 
+import { defaultPropsByType } from '../../data/editor';
 import { editorPaletteItems } from '../../types/editor';
+import { useEditor } from '../../store/editor-provider';
 
 // ----------------------------------------------------------------------
 
 export function EditorPalette() {
   const { t } = useTranslate('editor');
+  const { addComponent } = useEditor();
 
-  const handleClick = () => {
-    toast.info(t('palette.comingSoon'));
+  const handleClick = (type: (typeof editorPaletteItems)[number]['type']) => {
+    addComponent(type, defaultPropsByType[type]);
   };
 
   return (
@@ -32,7 +34,7 @@ export function EditorPalette() {
         {editorPaletteItems.map((item) => (
           <ListItem key={item.type} disablePadding sx={{ display: 'list-item' }}>
             <ListItemButton
-              onClick={handleClick}
+              onClick={() => handleClick(item.type)}
               sx={{
                 gap: 1.5,
                 borderRadius: 1.5,
