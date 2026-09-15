@@ -6,11 +6,11 @@ import { LandingView } from '../views/landing-view';
 // ----------------------------------------------------------------------
 
 export default function Page() {
-  const { t } = useTranslate('public');
+  const { t } = useTranslate('landing');
 
   return (
     <>
-      <title>{`${t('landing.title')} | ${CONFIG.appName}`}</title>
+      <title>{`${t('meta.title')} | ${CONFIG.appName}`}</title>
 
       <LandingView />
     </>
