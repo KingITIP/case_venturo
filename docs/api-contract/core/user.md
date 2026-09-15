@@ -27,10 +27,10 @@ API untuk mengelola user accounts. Termasuk admin CRUD dan self-service profile 
 ```json
 {
   "id": "550e8400-...",
-  "email": "admin@tuai.com",
-  "username": "admin",
-  "full_name": "Admin Tuai",
-  "phone": "+6281234567890",
+  "email": "owner@gmail.com",
+  "username": "owner",
+  "full_name": "Owner",
+  "phone": "+628****7890",
   "avatar_url": null,
   "is_active": true,
   "is_email_verified": false,
@@ -156,11 +156,11 @@ GET /core/v1/users
   "data": [
     {
       "id": "550e8400-...",
-      "email": "admin@tuai.com",
-      "username": "admin",
-      "full_name": "Admin Tuai",
-      "phone": null,
-      "avatar_url": null,
+            "email": "owner@gmail.com",
+            "username": "owner",
+            "full_name": "Owner",
+            "phone": null,
+            "avatar_url": null,
       "is_active": true,
       "is_email_verified": false,
       "role_name": "administrator",

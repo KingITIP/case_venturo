@@ -203,10 +203,10 @@ func (r *Repository) GetByID(ctx context.Context, id, companyID string) (*domain
 # Health check
 curl http://localhost:8080/health
 
-# Sign in
+# Sign in (kredensial dari seeder core/002_users.sql)
 curl -X POST http://localhost:8080/core/v1/auth/signin \
   -H "Content-Type: application/json" \
-  -d '{"login": "admin@tuai.com", "password": "admin123"}'
+  -d '{"login": "owner@gmail.com", "password": "Bismillah1407*"}'
 
 # Authenticated request
 curl http://localhost:8080/core/v1/users \

@@ -59,7 +59,7 @@ func Setup(router *gin.Engine, db *pgxpool.Pool, cfg *config.Config) {
 
 	// CORS middleware configuration
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173", "http://localhost:3000", "http://localhost:3001", "http://localhost:8081", "https://app.tuai.id", "https://jesuit.venturo.pro", "https://skeleton.venturo.id"},
+		AllowOrigins:     []string{"http://localhost:5173", "http://localhost:3000", "http://localhost:3001", "http://localhost:8081", "http://localhost:8082", "http://127.0.0.1:5173", "http://127.0.0.1:3000", "http://127.0.0.1:3001", "http://127.0.0.1:8081", "http://127.0.0.1:8082", "https://app.tuai.id", "https://jesuit.venturo.pro", "https://skeleton.venturo.id"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "X-API-Key"},
 		ExposeHeaders:    []string{"Content-Length"},
