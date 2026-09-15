@@ -3,6 +3,7 @@ import type { ComponentNode } from '../types/editor';
 import Stack from '@mui/material/Stack';
 
 import { ComponentFrame } from './component-frame';
+import { useEditor } from '../store/editor-provider';
 import { ComponentRenderer } from './component-renderer';
 
 // ----------------------------------------------------------------------
@@ -12,17 +13,32 @@ type CanvasContentProps = {
   selectedId: string | null;
 };
 
-/** Susun komponen secara vertikal (urutan array) di dalam halaman canvas. */
+/** Susun komponen vertikal; tiap node bisa dipilih & dikontrol (reorder/duplikat/hapus). */
 export function CanvasContent({ components, selectedId }: CanvasContentProps) {
+  const { select, moveComponent, duplicateComponent, removeComponent } = useEditor();
+
   if (components.length === 0) return null;
 
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
-      {components.map((node) => (
-        <ComponentFrame key={node.id} selected={node.id === selectedId}>
-          <ComponentRenderer node={node} />
-        </ComponentFrame>
-      ))}
+      {components.map((node, index) => {
+        const selected = node.id === selectedId;
+        return (
+          <ComponentFrame
+            key={node.id}
+            selected={selected}
+            canMoveUp={index > 0}
+            canMoveDown={index < components.length - 1}
+            onSelect={() => select(node.id)}
+            onMoveUp={() => moveComponent(node.id, 'up')}
+            onMoveDown={() => moveComponent(node.id, 'down')}
+            onDuplicate={() => duplicateComponent(node.id)}
+            onRemove={() => removeComponent(node.id)}
+          >
+            <ComponentRenderer node={node} />
+          </ComponentFrame>
+        );
+      })}
     </Stack>
   );
 }

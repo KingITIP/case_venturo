@@ -13,6 +13,21 @@
     "toggleProperties": "Buka panel properti",
     "comingSoon": "Fitur ini akan tersedia di iterasi berikutnya."
   },
+  "properties": {
+    "title": "Properti",
+    "emptyTitle": "Pilih komponen untuk mengedit propertinya",
+    "emptyDescription": "Klik komponen di canvas untuk melihat dan mengubah propertinya di sini.",
+    "open": "Buka panel properti",
+    "close": "Tutup panel properti",
+    "noContent": "Komponen ini belum punya konten teks.",
+    "fullFormComingSoon": "Form properti penuh akan tersedia di iterasi berikutnya."
+  },
+  "actions": {
+    "moveUp": "Naik",
+    "moveDown": "Turun",
+    "duplicate": "Duplikat",
+    "remove": "Hapus"
+  },
   "palette": {
     "title": "Komponen",
     "items": {
@@ -29,13 +44,6 @@
     "emptyTitle": "Mulai dengan menambahkan komponen dari kiri",
     "emptyDescription": "Atau pilih template di halaman /build sebagai titik awal.",
     "pageLabel": "Halaman"
-  },
-  "properties": {
-    "title": "Properti",
-    "emptyTitle": "Pilih komponen untuk mengedit propertinya",
-    "emptyDescription": "Klik komponen di canvas untuk melihat dan mengubah propertinya di sini.",
-    "open": "Buka panel properti",
-    "close": "Tutup panel properti"
   },
   "renderer": {
     "placeholder": {
