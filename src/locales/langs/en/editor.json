@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Editor"
+  },
+  "topbar": {
+    "back": "Back",
+    "siteName": "Site",
+    "preview": "Preview",
+    "save": "Save",
+    "undo": "Undo",
+    "redo": "Redo",
+    "togglePalette": "Open components panel",
+    "toggleProperties": "Open properties panel",
+    "comingSoon": "This feature will be available in a later iteration."
+  },
+  "palette": {
+    "title": "Elements",
+    "items": {
+      "text": "Text",
+      "heading": "Heading",
+      "button": "Button",
+      "image": "Image",
+      "container": "Container",
+      "divider": "Divider"
+    },
+    "comingSoon": "Add-component action coming soon."
+  },
+  "canvas": {
+    "emptyTitle": "Start by adding components from the left",
+    "emptyDescription": "Or pick a template on the /build page as a starting point.",
+    "pageLabel": "Page"
+  },
+  "properties": {
+    "title": "Properties",
+    "emptyTitle": "Select a component to edit its properties",
+    "emptyDescription": "Click a component on the canvas to view and edit its properties here.",
+    "open": "Open properties panel",
+    "close": "Close properties panel"
+  }
+}

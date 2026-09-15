@@ -29,7 +29,14 @@ export const publicRoutes: RouteObject[] = [
       { element: <LandingPage />, index: true },
       { path: 'build', element: <BuildPage /> },
       { path: 'login', element: <LoginPage /> },
-      { path: 'editor/:id', element: <EditorPage /> },
     ],
+  },
+  {
+    path: '/editor/:id',
+    element: (
+      <Suspense fallback={<SplashScreen />}>
+        <EditorPage />
+      </Suspense>
+    ),
   },
 ];

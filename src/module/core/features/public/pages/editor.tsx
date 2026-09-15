@@ -8,14 +8,14 @@ import { EditorView } from '../views/editor-view';
 // ----------------------------------------------------------------------
 
 export default function Page() {
-  const { t } = useTranslate('public');
+  const { t } = useTranslate('editor');
   const { id } = useParams();
 
   return (
     <>
-      <title>{`${t('editor.title')}${id ? ` #${id}` : ''} | ${CONFIG.appName}`}</title>
+      <title>{`${t('meta.title')}${id ? ` #${id}` : ''} | ${CONFIG.appName}`}</title>
 
-      <EditorView />
+      <EditorView siteId={id} />
     </>
   );
 }

@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Editor"
+  },
+  "topbar": {
+    "back": "Kembali",
+    "siteName": "Situs",
+    "preview": "Pratinjau",
+    "save": "Simpan",
+    "undo": "Undo",
+    "redo": "Redo",
+    "togglePalette": "Buka panel komponen",
+    "toggleProperties": "Buka panel properti",
+    "comingSoon": "Fitur ini akan tersedia di iterasi berikutnya."
+  },
+  "palette": {
+    "title": "Komponen",
+    "items": {
+      "text": "Teks",
+      "heading": "Judul",
+      "button": "Tombol",
+      "image": "Gambar",
+      "container": "Wadah",
+      "divider": "Pemisah"
+    },
+    "comingSoon": "Aksi tambah komponen segera hadir."
+  },
+  "canvas": {
+    "emptyTitle": "Mulai dengan menambahkan komponen dari kiri",
+    "emptyDescription": "Atau pilih template di halaman /build sebagai titik awal.",
+    "pageLabel": "Halaman"
+  },
+  "properties": {
+    "title": "Properti",
+    "emptyTitle": "Pilih komponen untuk mengedit propertinya",
+    "emptyDescription": "Klik komponen di canvas untuk melihat dan mengubah propertinya di sini.",
+    "open": "Buka panel properti",
+    "close": "Tutup panel properti"
+  }
+}
