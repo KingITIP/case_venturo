@@ -7,6 +7,7 @@ import { useTranslate } from 'src/locales';
 import { toast } from 'src/shared/ui/snackbar';
 
 import { getDummyTemplateComponents } from '../data/editor';
+import { loadSiteFromStorage } from '../lib/editor-storage';
 import { EditorContext, useEditorReducer } from './editor-context';
 
 // ----------------------------------------------------------------------
@@ -18,11 +19,22 @@ type InitialLoad = {
   source: 'blank' | 'dummy' | 'unknown';
 };
 
-/** Muat state awal berdasarkan id dari URL (blank / dummy / unknown). */
+/** Muat state awal berdasarkan id: localStorage dulu, lalu blank/dummy/unknown. */
 function resolveInitialComponents(id: string | undefined): InitialLoad {
-  if (!id || id === BLANK_ID) return { components: [], source: 'blank' };
+  if (!id) return { components: [], source: 'blank' };
+
+  // 1. Data tersimpan di localStorage → lanjut pekerjaan sebelumnya
+  const stored = loadSiteFromStorage(id);
+  if (stored) return { components: stored, source: 'dummy' };
+
+  // 2. id blank → kosong
+  if (id === BLANK_ID) return { components: [], source: 'blank' };
+
+  // 3. id template dummy → definisi template (#6)
   const found = getDummyTemplateComponents(id);
   if (found) return { components: found, source: 'dummy' };
+
+  // 4. id tak dikenal → kosong + snackbar info
   return { components: [], source: 'unknown' };
 }
 
@@ -64,6 +76,6 @@ export function useEditor() {
 }
 
 export function useEditorState() {
-  const { components, selectedId } = useEditor();
-  return { components, selectedId };
+  const { components, selectedId, mode } = useEditor();
+  return { components, selectedId, mode };
 }

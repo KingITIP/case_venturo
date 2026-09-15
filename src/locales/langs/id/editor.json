@@ -6,7 +6,10 @@
     "back": "Kembali",
     "siteName": "Situs",
     "preview": "Pratinjau",
+    "exitPreview": "Kembali Edit",
     "save": "Simpan",
+    "saving": "Menyimpan...",
+    "saved": "Tersimpan ✓",
     "undo": "Undo",
     "redo": "Redo",
     "togglePalette": "Buka panel komponen",
@@ -45,6 +48,41 @@
     "emptyDescription": "Atau pilih template di halaman /build sebagai titik awal.",
     "pageLabel": "Halaman"
   },
+  "fields": {
+    "text": "Teks",
+    "label": "Label",
+    "href": "Tautan (href)",
+    "src": "URL Gambar",
+    "srcHelper": "Kosongkan untuk memakai placeholder default.",
+    "alt": "Teks alternatif (alt)",
+    "align": "Perataan",
+    "alignLeft": "Kiri",
+    "alignCenter": "Tengah",
+    "alignRight": "Kanan",
+    "level": "Ukuran",
+    "levelH1": "Besar (H1)",
+    "levelH2": "Sedang (H2)",
+    "levelH3": "Kecil (H3)",
+    "variant": "Varian",
+    "variantFilled": "Terisi",
+    "variantOutline": "Outline",
+    "variantLink": "Tautan teks",
+    "ratio": "Rasio",
+    "ratioWide": "Lebar (16:9)",
+    "ratioClassic": "Klasik (4:3)",
+    "ratioSquare": "Kotak (1:1)",
+    "bgcolor": "Latar",
+    "bgTransparent": "Transparan",
+    "bgMuted": "Abu-abu",
+    "thickness": "Ketebalan",
+    "thicknessThin": "Tipis",
+    "thicknessMedium": "Sedang"
+  },
+  "preview": {
+    "header": "Pratinjau Halaman",
+    "exit": "Kembali Edit",
+    "empty": "Halaman masih kosong. Tambahkan komponen dari editor."
+  },
   "renderer": {
     "placeholder": {
       "heading": "Tulis judul di sini",
@@ -54,6 +92,8 @@
     "containerLabel": "Wadah — komponen anak di sini"
   },
   "message": {
-    "unknownId": "Template tidak ditemukan, memulai dengan halaman kosong."
+    "unknownId": "Template tidak ditemukan, memulai dengan halaman kosong.",
+    "saveSuccess": "Tersimpan! Perubahanmu aman di browser ini.",
+    "saveError": "Gagal menyimpan. Periksa penyimpanan browser."
   }
 }

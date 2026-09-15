@@ -44,9 +44,16 @@ export type ComponentNode = {
   props?: ComponentProps;
 };
 
+export type EditorMode = 'edit' | 'preview';
+
+export type EditorPageMeta = {
+  title?: string;
+};
+
 export type EditorState = {
   components: ComponentNode[];
   selectedId: string | null;
+  mode: EditorMode;
 };
 
 // ----------------------------------------------------------------------

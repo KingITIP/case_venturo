@@ -10,20 +10,24 @@ import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
 import { editorPaletteItems } from '../../types/editor';
-import { useEditor, useEditorState } from '../../store/editor-provider';
+import { useEditor } from '../../store/editor-provider';
+import { PropertyFields } from './property-panel/property-fields';
 
 // ----------------------------------------------------------------------
 
 export function EditorPropertyPanel() {
   const { t } = useTranslate('editor');
-  const { selectedId } = useEditorState();
-  const { components } = useEditor();
+  const { components, selectedId } = useEditor();
 
   const selected = components.find((c) => c.id === selectedId) ?? null;
   const definition = selected ? editorPaletteItems.find((d) => d.type === selected.type) : null;
 
   return (
-    <Box component="aside" aria-label={t('properties.title')} sx={{ width: 1 }}>
+    <Box
+      component="aside"
+      aria-label={t('properties.title')}
+      sx={{ width: 1, height: '100%', overflowY: 'auto' }}
+    >
       <Typography
         variant="overline"
         sx={{ color: 'text.secondary', px: 2, py: 1, display: 'block' }}
@@ -32,7 +36,7 @@ export function EditorPropertyPanel() {
       </Typography>
 
       {selected && definition ? (
-        <SelectedSummary
+        <SelectedPanel
           definitionLabel={t(definition.labelKey)}
           icon={definition.icon}
           node={selected}
@@ -64,7 +68,7 @@ function EmptyState() {
 
 // ----------------------------------------------------------------------
 
-function SelectedSummary({
+function SelectedPanel({
   definitionLabel,
   icon,
   node,
@@ -73,22 +77,9 @@ function SelectedSummary({
   icon: IconifyName;
   node: ComponentNode;
 }) {
-  const { t } = useTranslate('editor');
-  const { props = {} } = node;
-
-  const primary = (props.text || props.label || String(props.src ?? '') || '').slice(0, 60);
-
   return (
-    <Box sx={{ px: 2 }}>
-      <Stack
-        spacing={1.5}
-        sx={{
-          p: 2,
-          border: (theme) => `1px solid ${theme.palette.divider}`,
-          borderRadius: 2,
-          bgcolor: 'background.neutral',
-        }}
-      >
+    <Box sx={{ px: 2, pb: 3 }}>
+      <Stack spacing={2}>
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
           <Iconify icon={icon} width={20} sx={{ color: 'primary.main' }} />
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
@@ -103,19 +94,7 @@ function SelectedSummary({
           sx={{ alignSelf: 'flex-start', fontFamily: 'monospace' }}
         />
 
-        {primary ? (
-          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            {primary}
-          </Typography>
-        ) : (
-          <Typography variant="caption" sx={{ color: 'text.disabled' }}>
-            {t('properties.noContent')}
-          </Typography>
-        )}
-
-        <Typography variant="caption" sx={{ color: 'text.disabled' }}>
-          {t('properties.fullFormComingSoon')}
-        </Typography>
+        <PropertyFields node={node} />
       </Stack>
     </Box>
   );

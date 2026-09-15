@@ -1,0 +1,82 @@
+import type { ComponentNode } from '../../../types/editor';
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
+import { useTranslate } from 'src/locales';
+import { Iconify } from 'src/shared/ui/iconify';
+
+import { CanvasContent } from '../../../renderer/canvas-content';
+
+// ----------------------------------------------------------------------
+
+type PreviewModeProps = {
+  components: ComponentNode[];
+  onExit: () => void;
+};
+
+/** Mode preview — hasil halaman bersih tanpa toolbar editor. */
+export function PreviewMode({ components, onExit }: PreviewModeProps) {
+  const { t } = useTranslate('editor');
+
+  return (
+    <Box
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        bgcolor: 'background.default',
+      }}
+    >
+      {/* Kontrol kecil untuk kembali ke editor */}
+      <Box
+        component="header"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          px: 2,
+          py: 1,
+          borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+          bgcolor: 'background.paper',
+        }}
+      >
+        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+          {t('preview.header')}
+        </Typography>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<Iconify icon="solar:pen-bold" width={16} />}
+          onClick={onExit}
+        >
+          {t('preview.exit')}
+        </Button>
+      </Box>
+
+      {/* Hasil render bersih, tanpa outline/toolbar */}
+      <Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 4 } }}>
+        <Box
+          sx={{
+            maxWidth: 720,
+            mx: 'auto',
+            minHeight: '70vh',
+            p: { xs: 3, md: 6 },
+            bgcolor: 'background.paper',
+            boxShadow: (theme) => theme.shadows[4],
+            borderRadius: 1,
+          }}
+        >
+          {components.length > 0 ? (
+            <CanvasContent components={components} selectedId={null} />
+          ) : (
+            <Box sx={{ textAlign: 'center', py: 8, color: 'text.disabled' }}>
+              <Typography variant="body2">{t('preview.empty')}</Typography>
+            </Box>
+          )}
+        </Box>
+      </Box>
+    </Box>
+  );
+}
