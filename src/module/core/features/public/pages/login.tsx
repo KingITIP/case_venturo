@@ -6,11 +6,11 @@ import { LoginView } from '../views/login-view';
 // ----------------------------------------------------------------------
 
 export default function Page() {
-  const { t } = useTranslate('public');
+  const { t } = useTranslate('auth-public');
 
   return (
     <>
-      <title>{`${t('login.title')} | ${CONFIG.appName}`}</title>
+      <title>{`${t('meta.title')} | ${CONFIG.appName}`}</title>
 
       <LoginView />
     </>

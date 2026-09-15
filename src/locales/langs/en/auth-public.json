@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "title": "Sign In"
+  },
+  "signIn": {
+    "title": "Welcome back",
+    "subtitle": "Sign in to your Venturo Builder account to continue.",
+    "fields": {
+      "email": "Email",
+      "emailPlaceholder": "name@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password"
+    },
+    "submit": "Sign In",
+    "submitting": "Processing..."
+  },
+  "validation": {
+    "emailRequired": "Email is required.",
+    "emailInvalid": "Email format is invalid.",
+    "passwordRequired": "Password is required.",
+    "passwordMin": "Password must be at least 8 characters."
+  },
+  "feedback": {
+    "success": "Sign-in succeeded (mock). Welcome!",
+    "error": "Sign-in failed (mock). Check your email and password."
+  },
+  "secondary": {
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "mockNote": "Demo mode: submit is simulated, not connected to a backend yet."
+}
