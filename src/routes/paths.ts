@@ -1,5 +1,7 @@
 const ROOTS = {
   AUTH: '/auth',
+  PUBLIC: '/',
+  DASHBOARD: '/dashboard',
 };
 
 export const paths = {
@@ -10,24 +12,31 @@ export const paths = {
       signUp: `${ROOTS.AUTH}/jwt/sign-up`,
     },
   },
+  public: {
+    root: ROOTS.PUBLIC,
+    landing: `${ROOTS.PUBLIC}`,
+    build: '/build',
+    login: '/login',
+    editor: (id: string) => `/editor/${id}`,
+  },
   dashboard: {
-    root: '/',
+    root: ROOTS.DASHBOARD,
     dashboards: {
-      finance: '/dashboards/finance',
-      monitoring: '/dashboards/monitoring',
-      sales: '/dashboards/sales',
+      finance: `${ROOTS.DASHBOARD}/dashboards/finance`,
+      monitoring: `${ROOTS.DASHBOARD}/dashboards/monitoring`,
+      sales: `${ROOTS.DASHBOARD}/dashboards/sales`,
     },
     settings: {
-      branches: '/settings/branches',
-      roles: '/settings/roles',
-      users: '/settings/users',
-      translationOverride: '/settings/translation-override',
+      branches: `${ROOTS.DASHBOARD}/settings/branches`,
+      roles: `${ROOTS.DASHBOARD}/settings/roles`,
+      users: `${ROOTS.DASHBOARD}/settings/users`,
+      translationOverride: `${ROOTS.DASHBOARD}/settings/translation-override`,
     },
     demo: {
-      item: '/demo/item',
-      itemEmpty: '/demo/item-empty',
-      order: '/demo/order',
-      orderDetail: (id: string) => `/demo/order/${id}`,
+      item: `${ROOTS.DASHBOARD}/demo/item`,
+      itemEmpty: `${ROOTS.DASHBOARD}/demo/item-empty`,
+      order: `${ROOTS.DASHBOARD}/demo/order`,
+      orderDetail: (id: string) => `${ROOTS.DASHBOARD}/demo/order/${id}`,
     },
   },
 };

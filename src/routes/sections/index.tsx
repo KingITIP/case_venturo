@@ -3,6 +3,7 @@ import type { RouteObject } from 'react-router';
 import { lazy } from 'react';
 
 import { authRoutes } from './auth';
+import { publicRoutes } from './public';
 import { dashboardRoutes } from './dashboard';
 
 // ----------------------------------------------------------------------
@@ -13,7 +14,10 @@ export const routesSection: RouteObject[] = [
   // Auth
   ...authRoutes,
 
-  // Dashboard (mounted at '/')
+  // Public (landing, build, login, editor) — mounted at '/'
+  ...publicRoutes,
+
+  // Dashboard (mounted at '/dashboard')
   ...dashboardRoutes,
 
   // No match

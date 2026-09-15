@@ -60,7 +60,7 @@ function gated(require: string | string[], element: React.ReactElement) {
 
 export const dashboardRoutes: RouteObject[] = [
   {
-    path: '/',
+    path: '/dashboard',
     element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
     children: [
       { element: <HomePage />, index: true },

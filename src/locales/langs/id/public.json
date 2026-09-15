@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "build": "Buat",
+    "login": "Masuk"
+  },
+  "footer": {
+    "copyright": "Venturo Web Builder. Semua hak dilindungi."
+  },
+  "landing": {
+    "title": "Landing Page",
+    "badge": "Coming Soon",
+    "description": "Halaman depan (hero, fitur, pricing) akan dibuat di issue berikutnya."
+  },
+  "build": {
+    "title": "Template Gallery",
+    "badge": "Coming Soon",
+    "description": "Grid template + filter kategori akan dibuat di issue berikutnya."
+  },
+  "login": {
+    "title": "Login",
+    "badge": "Coming Soon",
+    "description": "Form login + validasi akan dibuat di issue berikutnya."
+  },
+  "editor": {
+    "title": "Web Builder Editor",
+    "badge": "Coming Soon",
+    "description": "Editor 3 panel (palette/canvas/property) akan dibuat di issue berikutnya."
+  },
+  "comingSoon": "Halaman ini sedang disiapkan."
+}

@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Home",
+    "build": "Build",
+    "login": "Sign In"
+  },
+  "footer": {
+    "copyright": "Venturo Web Builder. All rights reserved."
+  },
+  "landing": {
+    "title": "Landing Page",
+    "badge": "Coming Soon",
+    "description": "Hero, features, and pricing sections are built in a later issue."
+  },
+  "build": {
+    "title": "Template Gallery",
+    "badge": "Coming Soon",
+    "description": "Template grid + category filter are built in a later issue."
+  },
+  "login": {
+    "title": "Login",
+    "badge": "Coming Soon",
+    "description": "Login form + validation are built in a later issue."
+  },
+  "editor": {
+    "title": "Web Builder Editor",
+    "badge": "Coming Soon",
+    "description": "3-panel editor (palette/canvas/property) is built in a later issue."
+  },
+  "comingSoon": "This page is under construction."
+}
