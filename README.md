@@ -180,14 +180,20 @@ curl http://localhost:8080/health
 
 **Signin:**
 
+> Kontrak API sebenarnya: `POST /core/v1/auth/signin` (lihat [docs/api-contract/core/auth.md](docs/api-contract/core/auth.md)).
+
 ```bash
-curl -X POST http://localhost:8080/api/v1/auth/signin \
+curl -X POST http://localhost:8080/core/v1/auth/signin \
   -H "Content-Type: application/json" \
   -d '{
-    "login": "admin@tuai.com",
-    "password": "admin123"
+    "login": "owner@gmail.com",
+    "password": "Bismillah1407*"
   }'
 ```
+
+> Kredensial di atas berasal dari seeder (`internal/database/seeders/core/002_users.sql`):
+> - `owner@gmail.com` / `Bismillah1407*` — role `super_admin`
+> - `client@gmail.com` / `Client2026*` — role `administrator`
 
 ## Logging
 

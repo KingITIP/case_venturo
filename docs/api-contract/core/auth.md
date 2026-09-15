@@ -185,10 +185,13 @@ POST /core/v1/auth/signin
 **Request:**
 ```json
 {
-  "login": "admin@tuai.com",
-  "password": "admin123"
+  "login": "owner@gmail.com",
+  "password": "Bismillah1407*"
 }
 ```
+
+> Contoh di dokumen ini memakai kredensial **seeder** (`internal/database/seeders/core/002_users.sql`):
+> `owner@gmail.com` / `Bismillah1407*` (super_admin) atau `client@gmail.com` / `Client2026*` (administrator).
 
 | Field | Type | Required | Keterangan |
 |-------|------|----------|------------|
@@ -200,15 +203,15 @@ POST /core/v1/auth/signin
 {
   "data": {
     "access_token": "eyJhbGci...",
-    "refresh_token": "a1b2c3d4e5...",
-    "token_type": "Bearer",
-    "expires_in": 86400,
-    "user": {
-      "id": "550e8400-...",
-      "email": "admin@tuai.com",
-      "username": "admin",
-      "full_name": "Admin Tuai"
-    },
+        "refresh_token": "a1b2c3d4e5...",
+        "token_type": "Bearer",
+        "expires_in": 86400,
+        "user": {
+          "id": "10000000-0000-0000-0000-000000000001",
+          "email": "owner@gmail.com",
+          "username": "owner",
+          "full_name": "Owner"
+        },
     "company": {
       "id": "660e8400-...",
       "name": "PT Tuai Indonesia"
@@ -641,21 +644,21 @@ GET /core/v1/auth/me
 ```json
 {
   "data": {
-    "user": {
-      "id": "550e8400-...",
-      "email": "admin@tuai.com",
-      "username": "admin",
-      "full_name": "Admin Tuai"
-    },
-    "company": {
-      "id": "660e8400-...",
-      "name": "PT Tuai Indonesia"
-    },
-    "client": {
-      "id": "770e8400-...",
-      "slug": "tuai",
-      "name": "Tuai"
-    },
+        "user": {
+          "id": "10000000-0000-0000-0000-000000000001",
+          "email": "owner@gmail.com",
+          "username": "owner",
+          "full_name": "Owner"
+        },
+        "company": {
+          "id": "660e8400-...",
+          "name": "PT Tuai Indonesia"
+        },
+        "client": {
+          "id": "770e8400-...",
+          "slug": "tuai",
+          "name": "Tuai"
+        },
     "roles": ["administrator"],
     "permissions": [
       "finance.contacts:read",
