@@ -1,6 +1,8 @@
+import type { DeviceSize } from '../../types/editor';
+
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { useTranslate } from 'src/locales';
@@ -12,10 +14,18 @@ import { useEditor, useEditorState } from '../../store/editor-provider';
 
 // ----------------------------------------------------------------------
 
+/** Lebar konten per perangkat — mobile < tablet < desktop, auto = 100% */
+export const DEVICE_WIDTHS: Record<DeviceSize, string | number> = {
+  mobile: 390,
+  tablet: 768,
+  desktop: 1024,
+  auto: '100%',
+};
+
 export function EditorCanvas() {
   const { t } = useTranslate('editor');
-  const { components, selectedId } = useEditorState();
-  const { clearSelection, removeComponent, duplicateComponent } = useEditor();
+  const { components, selectedId, page } = useEditorState();
+  const { clearSelection, select, removeComponent, duplicateComponent, moveComponentTo } = useEditor();
 
   useEditorShortcuts({
     selectedId,
@@ -23,6 +33,15 @@ export function EditorCanvas() {
     onDuplicate: duplicateComponent,
     onClear: clearSelection,
   });
+
+  const isPageSelected = selectedId === 'page';
+  const deviceWidth = DEVICE_WIDTHS[page.device] ?? '100%';
+
+  // Klik area kosong = pilih halaman (bukan clear). Klik di luar paper (scroll area) = clear.
+  const handlePaperClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    select('page');
+  };
 
   return (
     <Box
@@ -40,21 +59,38 @@ export function EditorCanvas() {
         p: { xs: 2, md: 4 },
       }}
     >
+      {/* Area halaman — klik = pilih page; memakai bgcolor, border, device width */}
       <Paper
         variant="outlined"
+        onClick={handlePaperClick}
         sx={{
-          maxWidth: 720,
+          maxWidth: deviceWidth,
           mx: 'auto',
           minHeight: '70vh',
-          p: { xs: 3, md: 6 },
+          p: `${page.padding}px`,
+          bgcolor: page.backgroundColor,
+          border: `${page.borderWidth}px solid ${page.borderColor}`,
           boxShadow: (theme) => theme.shadows[8],
           display: 'flex',
           flexDirection: 'column',
           gap: 2,
+          position: 'relative',
+          ...(isPageSelected
+            ? {
+                outline: '2px solid #00a76f',
+                outlineOffset: 2,
+                cursor: 'pointer',
+              }
+            : {}),
         }}
       >
         {components.length > 0 ? (
-          <CanvasContent components={components} selectedId={selectedId} />
+          <CanvasContent
+            components={components}
+            selectedId={selectedId}
+            interactive
+            onReorder={(id, toIndex) => moveComponentTo(id, toIndex)}
+          />
         ) : (
           <EmptyCanvas />
         )}

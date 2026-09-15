@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import { useTranslate } from 'src/locales';
 
 import { AlignSelect } from './shared-fields';
+import { ColorField } from './page-settings-panel';
 import { useEditor } from '../../../store/editor-provider';
 
 // ----------------------------------------------------------------------
@@ -74,6 +75,11 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
+          <ColorField
+            label={t('fields.color')}
+            value={props.color || '#000000'}
+            onChange={(color) => set({ color })}
+          />
         </Box>
       );
 
@@ -90,6 +96,11 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             onChange={(e) => set({ text: e.target.value })}
           />
           <AlignSelect node={node} />
+          <ColorField
+            label={t('fields.color')}
+            value={props.color || '#000000'}
+            onChange={(color) => set({ color })}
+          />
         </Box>
       );
 
@@ -124,6 +135,24 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
+          <ColorField
+            label={t('fields.color')}
+            value={props.color || '#00a76f'}
+            onChange={(color) => set({ color })}
+          />
+          <ColorField
+            label={t('fields.borderColor')}
+            value={props.borderColor || '#e0e0e0'}
+            onChange={(color) => set({ borderColor: color })}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            type="number"
+            label={t('fields.borderWidth')}
+            value={props.borderWidth ?? 1}
+            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
+          />
         </Box>
       );
 
@@ -159,6 +188,19 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
+          <ColorField
+            label={t('fields.borderColor')}
+            value={props.borderColor || '#e0e0e0'}
+            onChange={(color) => set({ borderColor: color })}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            type="number"
+            label={t('fields.borderWidth')}
+            value={props.borderWidth ?? 1}
+            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
+          />
         </Box>
       );
 
@@ -179,6 +221,19 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
+          <ColorField
+            label={t('fields.borderColor')}
+            value={props.borderColor || '#e0e0e0'}
+            onChange={(color) => set({ borderColor: color })}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            type="number"
+            label={t('fields.borderWidth')}
+            value={props.borderWidth ?? 1}
+            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
+          />
         </Box>
       );
 
@@ -199,6 +254,11 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
+          <ColorField
+            label={t('fields.borderColor')}
+            value={props.borderColor || '#e0e0e0'}
+            onChange={(color) => set({ borderColor: color })}
+          />
         </Box>
       );
 

@@ -12,6 +12,7 @@ import { Iconify } from 'src/shared/ui/iconify';
 import { editorPaletteItems } from '../../types/editor';
 import { useEditor } from '../../store/editor-provider';
 import { PropertyFields } from './property-panel/property-fields';
+import { PageSettingsPanel } from './property-panel/page-settings-panel';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +22,8 @@ export function EditorPropertyPanel() {
 
   const selected = components.find((c) => c.id === selectedId) ?? null;
   const definition = selected ? editorPaletteItems.find((d) => d.type === selected.type) : null;
+
+  const isPageSelected = selectedId === 'page';
 
   return (
     <Box
@@ -35,7 +38,9 @@ export function EditorPropertyPanel() {
         {t('properties.title')}
       </Typography>
 
-      {selected && definition ? (
+      {isPageSelected ? (
+        <PageSettingsPanel />
+      ) : selected && definition ? (
         <SelectedPanel
           definitionLabel={t(definition.labelKey)}
           icon={definition.icon}

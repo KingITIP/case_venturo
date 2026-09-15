@@ -16,6 +16,13 @@ import { defaultPropsByType } from '../data/editor';
 const alignMap = { left: 'left', center: 'center', right: 'right' } as const;
 const levelMap = { 1: 'h1', 2: 'h2', 3: 'h3' } as const;
 
+/** Border bersama: warna + ketebalan (opsional, default tipis keabuan) */
+function borderStyle(def: { borderColor?: string; borderWidth?: number }) {
+  const color = def.borderColor || 'divider';
+  const width = def.borderWidth ?? 1;
+  return { border: `${width}px solid ${color === 'divider' ? 'divider' : color}` };
+}
+
 function imagePlaceholderSrc() {
   // Data URI SVG abu-abu dengan ikon — offline-friendly
   return `data:image/svg+xml;utf8,${encodeURIComponent(
@@ -35,7 +42,11 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
         <Typography
           component={levelMap[def.level ?? 2]}
           variant={levelMap[def.level ?? 2]}
-          sx={{ textAlign: alignMap[def.align ?? 'left'], fontWeight: 700 }}
+          sx={{
+            textAlign: alignMap[def.align ?? 'left'],
+            fontWeight: 700,
+            color: def.color || 'text.primary',
+          }}
         >
           {def.text || t('renderer.placeholder.heading')}
         </Typography>
@@ -45,7 +56,11 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
       return (
         <Typography
           variant="body1"
-          sx={{ textAlign: alignMap[def.align ?? 'left'], color: 'text.primary', maxWidth: 640 }}
+          sx={{
+            textAlign: alignMap[def.align ?? 'left'],
+            color: def.color || 'text.primary',
+            maxWidth: 640,
+          }}
         >
           {def.text || t('renderer.placeholder.text')}
         </Typography>
@@ -57,7 +72,7 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
           component="a"
           href={def.href || '#'}
           sx={{
-            color: 'primary.main',
+            color: def.color || 'primary.main',
             textAlign: alignMap[def.align ?? 'left'],
             display: 'inline-block',
             pointerEvents: 'none',
@@ -71,7 +86,12 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
             variant={def.variant === 'outline' ? 'outlined' : 'contained'}
             href={def.href || '#'}
             size="medium"
-            sx={{ pointerEvents: 'none', textTransform: 'none', borderRadius: 1.5 }}
+            sx={{
+              pointerEvents: 'none',
+              textTransform: 'none',
+              borderRadius: 1.5,
+              ...(def.color ? { bgcolor: def.variant === 'outline' ? 'transparent' : def.color, color: '#fff', borderColor: def.color } : {}),
+            }}
           >
             {def.label || t('renderer.placeholder.button')}
           </Button>
@@ -96,6 +116,7 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
             display: 'block',
             mx: 'auto',
             bgcolor: 'background.neutral',
+            ...(def.borderColor || def.borderWidth ? { ...borderStyle(def), borderRadius: 1.5 } : {}),
           }}
         />
       );
@@ -109,7 +130,9 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
             px: 3,
             borderRadius: 2,
             bgcolor: def.bgcolor === 'muted' ? 'background.neutral' : 'transparent',
-            border: (theme) => `1px dashed ${theme.palette.divider}`,
+            ...(def.borderColor || def.borderWidth ? borderStyle(def) : {}),
+            border: !def.borderColor && !def.borderWidth ? '1px dashed' : undefined,
+            borderColor: !def.borderColor && !def.borderWidth ? 'divider' : undefined,
           }}
         >
           <Stack spacing={1.5} sx={{ alignItems: alignMap[def.align ?? 'left'] }}>
@@ -131,7 +154,7 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
           flexItem
           sx={{
             borderBottomWidth: def.thickness === 'thin' ? 1 : 2,
-            borderColor: 'divider',
+            borderColor: def.borderColor || 'divider',
             my: 1,
           }}
         />
