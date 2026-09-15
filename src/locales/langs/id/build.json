@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Pilih Titik Awal"
+  },
+  "nav": {
+    "back": "Kembali",
+    "blankPage": "Halaman Kosong"
+  },
+  "heading": {
+    "title": "Pilih Titik Awal",
+    "subtitle": "Mulai dari halaman kosong atau pilih template untuk dijadikan dasar situs kamu. Semua bisa disesuaikan nanti di editor."
+  },
+  "categories": {
+    "all": "Semua",
+    "profile": "Profil",
+    "landing": "Landing",
+    "form": "Form",
+    "portfolio": "Portofolio",
+    "sectioned": "Sectioned"
+  },
+  "blank": {
+    "name": "Halaman Kosong",
+    "description": "Mulai dari nol, tanpa elemen apa pun"
+  },
+  "card": {
+    "select": "Pilih"
+  },
+  "empty": {
+    "title": "Belum ada template kategori ini",
+    "description": "Coba pilih kategori lain, atau mulai dari halaman kosong."
+  },
+  "templates": {
+    "dummyProfile": "Profil",
+    "dummyLanding1": "Landing Page",
+    "dummyLanding2": "Landing Variant",
+    "dummyForm": "Form",
+    "dummyPortfolio": "Portofolio",
+    "dummyShowcase": "Showcase",
+    "dummySectioned": "Sectioned"
+  }
+}

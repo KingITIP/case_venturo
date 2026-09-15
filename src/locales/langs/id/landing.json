@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "build": "Buat",
+    "login": "Masuk"
+  },
+  "meta": {
+    "title": "Venturo Builder — Buat situs satu halaman"
+  },
+  "footer": {
+    "copyright": "Venturo Web Builder. Semua hak dilindungi."
+  },
+  "landing": {
+    "hero": {
+      "badge": "Web builder satu halaman",
+      "title": "Buat situs satu halaman yang simpel, responsif, dan gratis",
+      "titleHighlight": "simpel, responsif, dan gratis",
+      "subtitle": "Mulai dari template atau halaman kosong. Venturo Builder membantu kamu membuat landing page, profil, portfolio, atau halaman apa pun — tanpa perlu menulis kode.",
+      "primaryCta": "Mulai Membuat",
+      "secondaryCta": "Lihat Cara Kerjanya",
+      "visual": {
+        "card1": "Landing",
+        "card2": "Profile",
+        "card3": "Form"
+      }
+    },
+    "demo": {
+      "badge": "Contoh",
+      "title": "Lihat contohnya",
+      "subtitle": "Beberapa contoh halaman yang bisa kamu buat hanya dalam hitungan menit.",
+      "viewAll": "Lihat Semua Template",
+      "items": {
+        "landing": "Landing Page",
+        "profile": "Profile",
+        "form": "Form",
+        "portfolio": "Portfolio",
+        "showcase": "Showcase",
+        "landingVariant": "Landing Variant"
+      }
+    },
+    "features": {
+      "badge": "Fitur",
+      "title": "Kenapa Venturo Builder?",
+      "subtitle": "Tiga alasan utama memilih Venturo untuk kebutuhan halaman satu halaman kamu.",
+      "items": {
+        "simple": {
+          "title": "Simpel",
+          "description": "Mulai dari template atau halaman kosong, langsung buat sendiri tanpa ribet."
+        },
+        "responsive": {
+          "title": "Responsif",
+          "description": "Tampil rapi di semua ukuran layar — dari ponsel sampai desktop."
+        },
+        "free": {
+          "title": "Gratis",
+          "description": "Bisa buat hingga 3 situs per akun dengan fitur inti, gratis selamanya."
+        }
+      }
+    },
+    "pricing": {
+      "badge": "Harga",
+      "title": "Go Pro",
+      "subtitle": "Mulai dari $19/tahun. Semua fitur untuk membawa situs kamu ke level berikutnya.",
+      "planName": "Venturo Pro",
+      "price": "$19",
+      "pricePeriod": "/tahun",
+      "features": {
+        "customDomain": "Custom domain + SSL",
+        "moreSites": "Buat lebih dari 3 situs",
+        "forms": "Form kontak / signup / payment",
+        "widgets": "Widget & embed (Stripe, PayPal, dll)",
+        "analytics": "Analytics (GA, Plausible, dll)",
+        "noBranding": "Tanpa branding \"Dibuat dengan Venturo\""
+      },
+      "trialNote": "Coba gratis 7 hari",
+      "cta": "Pilih Pro"
+    },
+    "closingCta": {
+      "title": "Siap membuat sesuatu yang keren?",
+      "subtitle": "Gratis untuk memulai. Tanpa kartu kredit. Tanpa ribet.",
+      "cta": "Mulai Membuat"
+    },
+    "footer": {
+      "tagline": "Web builder satu halaman yang simpel, responsif, dan gratis.",
+      "links": {
+        "product": "Produk",
+        "resources": "Sumber Daya",
+        "company": "Perusahaan"
+      },
+      "products": {
+        "build": "Buat Situs",
+        "templates": "Template",
+        "pricing": "Harga"
+      },
+      "resourcesLink": {
+        "help": "Bantuan",
+        "faqs": "FAQ",
+        "contact": "Kontak"
+      },
+      "companyLink": {
+        "about": "Tentang",
+        "login": "Masuk",
+        "signup": "Daftar"
+      },
+      "copyright": "Venturo Web Builder. Semua hak dilindungi.",
+      "madeWith": "Dibuat dengan ❤️ untuk halaman satu halaman."
+    }
+  }
+}
