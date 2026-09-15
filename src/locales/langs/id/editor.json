@@ -36,5 +36,16 @@
     "emptyDescription": "Klik komponen di canvas untuk melihat dan mengubah propertinya di sini.",
     "open": "Buka panel properti",
     "close": "Tutup panel properti"
+  },
+  "renderer": {
+    "placeholder": {
+      "heading": "Tulis judul di sini",
+      "text": "Tulis teks di sini",
+      "button": "Tombol"
+    },
+    "containerLabel": "Wadah — komponen anak di sini"
+  },
+  "message": {
+    "unknownId": "Template tidak ditemukan, memulai dengan halaman kosong."
   }
 }
