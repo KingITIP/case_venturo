@@ -9,6 +9,7 @@ import type {
 
 import { useMemo, useState, useCallback, createContext } from 'react';
 
+import { defaultPropsByType } from '../data/editor';
 import { DEFAULT_PAGE_SETTINGS } from '../types/editor';
 
 // ----------------------------------------------------------------------
@@ -80,7 +81,13 @@ export function useEditorReducer() {
   }, []);
 
   const addComponent = useCallback((type: EditorComponentType, props?: ComponentNode['props']) => {
-    const node: ComponentNode = { id: createComponentId(), type, props: props ?? {} };
+    // Node baru memakai default props (termasuk color '#000000') supaya
+    // render & panel properti konsisten (WYSIWYG).
+    const node: ComponentNode = {
+      id: createComponentId(),
+      type,
+      props: { ...defaultPropsByType[type], ...props },
+    };
     setState((prev) => ({
       ...prev,
       components: [...prev.components, node],
