@@ -76,7 +76,26 @@
     "bgMuted": "Muted",
     "thickness": "Thickness",
     "thicknessThin": "Thin",
-    "thicknessMedium": "Medium"
+    "thicknessMedium": "Medium",
+    "color": "Text color",
+    "borderColor": "Border color",
+    "borderWidth": "Border width"
+  },
+  "device": {
+    "label": "Device size",
+    "mobile": "Phone",
+    "tablet": "Tablet",
+    "desktop": "Desktop",
+    "auto": "Auto"
+  },
+  "page": {
+    "title": "Page settings",
+    "backgroundColor": "Background color",
+    "borderColor": "Border color",
+    "borderWidth": "Border width",
+    "maxWidth": "Content max width",
+    "padding": "Content padding",
+    "autoNote": "Click the page background to edit these settings"
   },
   "preview": {
     "header": "Page Preview",

@@ -76,7 +76,26 @@
     "bgMuted": "Abu-abu",
     "thickness": "Ketebalan",
     "thicknessThin": "Tipis",
-    "thicknessMedium": "Sedang"
+    "thicknessMedium": "Sedang",
+    "color": "Warna teks",
+    "borderColor": "Warna border",
+    "borderWidth": "Ketebalan border"
+  },
+  "device": {
+    "label": "Ukuran perangkat",
+    "mobile": "HP",
+    "tablet": "Tablet",
+    "desktop": "PC",
+    "auto": "Otomatis"
+  },
+  "page": {
+    "title": "Pengaturan halaman",
+    "backgroundColor": "Warna latar",
+    "borderColor": "Warna border",
+    "borderWidth": "Ketebalan border",
+    "maxWidth": "Lebar maks. konten",
+    "padding": "Padding konten",
+    "autoNote": "Klik latar halaman untuk mengubah pengaturan ini"
   },
   "preview": {
     "header": "Pratinjau Halaman",

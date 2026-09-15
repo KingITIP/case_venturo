@@ -1,4 +1,4 @@
-import type { ComponentNode } from '../../../types/editor';
+import type { PageSettings, ComponentNode } from '../../../types/editor';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -7,18 +7,21 @@ import Typography from '@mui/material/Typography';
 import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
+import { DEVICE_WIDTHS } from '../editor-canvas';
 import { CanvasContent } from '../../../renderer/canvas-content';
 
 // ----------------------------------------------------------------------
 
 type PreviewModeProps = {
   components: ComponentNode[];
+  page: PageSettings;
   onExit: () => void;
 };
 
 /** Mode preview — hasil halaman bersih tanpa toolbar editor. */
-export function PreviewMode({ components, onExit }: PreviewModeProps) {
+export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
   const { t } = useTranslate('editor');
+  const deviceWidth = DEVICE_WIDTHS[page.device] ?? '100%';
 
   return (
     <Box
@@ -59,11 +62,12 @@ export function PreviewMode({ components, onExit }: PreviewModeProps) {
       <Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 4 } }}>
         <Box
           sx={{
-            maxWidth: 720,
+            maxWidth: deviceWidth,
             mx: 'auto',
             minHeight: '70vh',
-            p: { xs: 3, md: 6 },
-            bgcolor: 'background.paper',
+            p: `${page.padding}px`,
+            bgcolor: page.backgroundColor,
+            border: `${page.borderWidth}px solid ${page.borderColor}`,
             boxShadow: (theme) => theme.shadows[4],
             borderRadius: 1,
           }}

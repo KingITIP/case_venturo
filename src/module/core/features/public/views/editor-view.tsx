@@ -23,7 +23,7 @@ export function EditorView({ siteId }: EditorViewProps) {
   const { t } = useTranslate('editor');
   const paletteOpen = useBoolean();
   const propertiesOpen = useBoolean();
-  const { components, mode, setMode } = useEditor();
+  const { components, mode, page, setMode, updatePage } = useEditor();
 
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -41,7 +41,7 @@ export function EditorView({ siteId }: EditorViewProps) {
     // Simulasi proses singkat
     setTimeout(() => {
       try {
-        saveSiteToStorage(siteId, components);
+        saveSiteToStorage(siteId, components, page);
         setSaving(false);
         setSaved(true);
         toast.success(t('message.saveSuccess'));
@@ -51,11 +51,11 @@ export function EditorView({ siteId }: EditorViewProps) {
         toast.error(t('message.saveError'));
       }
     }, 400);
-  }, [siteId, components, t]);
+  }, [siteId, components, t, page]);
 
   // Mode preview: render bersih, tanpa toolbar editor
   if (mode === 'preview') {
-    return <PreviewMode components={components} onExit={() => setMode('edit')} />;
+    return <PreviewMode components={components} page={page} onExit={() => setMode('edit')} />;
   }
 
   return (
@@ -72,6 +72,8 @@ export function EditorView({ siteId }: EditorViewProps) {
         mode={mode}
         saving={saving}
         saved={saved}
+        device={page.device}
+        onChangeDevice={(device) => updatePage({ device })}
         onTogglePreview={handleTogglePreview}
         onSave={handleSave}
         onTogglePalette={paletteOpen.onToggle}

@@ -1,9 +1,14 @@
+import type { DeviceSize } from '../../types/editor';
+import type { IconifyName } from 'src/shared/ui/iconify/register-icons';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
@@ -13,11 +18,47 @@ import { Iconify } from 'src/shared/ui/iconify';
 
 // ----------------------------------------------------------------------
 
+/** Kontrol ukuran perangkat (hp/tablet/desktop/auto) — ala Carrd. */
+function DeviceToggle({
+  value,
+  onChange,
+}: {
+  value: DeviceSize;
+  onChange: (device: DeviceSize) => void;
+}) {
+  const { t } = useTranslate('editor');
+
+  const devices: { id: DeviceSize; icon: IconifyName; label: string }[] = [
+    { id: 'mobile', icon: 'solar:smartphone-2-bold', label: t('device.mobile') },
+    { id: 'tablet', icon: 'solar:phone-bold', label: t('device.tablet') },
+    { id: 'desktop', icon: 'solar:monitor-bold', label: t('device.desktop') },
+    { id: 'auto', icon: 'solar:full-screen-square-outline', label: t('device.auto') },
+  ];
+
+  return (
+    <ToggleButtonGroup
+      size="small"
+      exclusive
+      value={value}
+      onChange={(_, next) => next && onChange(next as DeviceSize)}
+      aria-label={t('device.label')}
+    >
+      {devices.map((d) => (
+        <ToggleButton key={d.id} value={d.id} aria-label={d.label} title={d.label}>
+          <Iconify icon={d.icon} width={16} />
+        </ToggleButton>
+      ))}
+    </ToggleButtonGroup>
+  );
+}
+
 type EditorTopbarProps = {
   siteId?: string;
   mode: 'edit' | 'preview';
   saving: boolean;
   saved: boolean;
+  device: DeviceSize;
+  onChangeDevice: (device: DeviceSize) => void;
   onTogglePreview: () => void;
   onSave: () => void;
   onTogglePalette: () => void;
@@ -29,6 +70,8 @@ export function EditorTopbar({
   mode,
   saving,
   saved,
+  device,
+  onChangeDevice,
   onTogglePreview,
   onSave,
   onTogglePalette,
@@ -72,6 +115,11 @@ export function EditorTopbar({
           {siteId ? ` · ${siteId}` : ''}
         </Typography>
       </Stack>
+
+      {/* Center: device toggle (hidden on small screens — pakai switch di sidebar?) */}
+      <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+        <DeviceToggle value={device} onChange={onChangeDevice} />
+      </Box>
 
       {/* Mobile: toggle palette */}
       <IconButton

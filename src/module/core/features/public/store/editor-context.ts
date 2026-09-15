@@ -1,6 +1,7 @@
 import type {
   EditorMode,
   EditorState,
+  PageSettings,
   ComponentNode,
   ComponentProps,
   EditorComponentType,
@@ -8,10 +9,12 @@ import type {
 
 import { useMemo, useState, useCallback, createContext } from 'react';
 
+import { DEFAULT_PAGE_SETTINGS } from '../types/editor';
+
 // ----------------------------------------------------------------------
 
 export type EditorContextValue = EditorState & {
-  loadTemplate: (components: ComponentNode[] | null) => void;
+  loadTemplate: (components: ComponentNode[] | null, page?: Partial<PageSettings>) => void;
   select: (id: string | null) => void;
   setComponents: (next: ComponentNode[]) => void;
   reset: () => void;
@@ -19,8 +22,10 @@ export type EditorContextValue = EditorState & {
   removeComponent: (id: string) => void;
   duplicateComponent: (id: string) => void;
   moveComponent: (id: string, direction: 'up' | 'down') => void;
+  moveComponentTo: (id: string, toIndex: number) => void;
   clearSelection: () => void;
   updateComponentProps: (id: string, partialProps: Partial<ComponentProps>) => void;
+  updatePage: (partial: Partial<PageSettings>) => void;
   setMode: (mode: EditorMode) => void;
 };
 
@@ -32,6 +37,7 @@ const INITIAL_STATE: EditorState = {
   components: [],
   selectedId: null,
   mode: 'edit',
+  page: DEFAULT_PAGE_SETTINGS,
 };
 
 /** Id unik komponen — tidak pernah bentrok (timestamp + counter + random). */
@@ -45,9 +51,17 @@ function createComponentId(): string {
 export function useEditorReducer() {
   const [state, setState] = useState<EditorState>(INITIAL_STATE);
 
-  const loadTemplate = useCallback((components: ComponentNode[] | null) => {
-    setState({ components: components ?? [], selectedId: null, mode: 'edit' });
-  }, []);
+  const loadTemplate = useCallback(
+    (components: ComponentNode[] | null, page?: Partial<PageSettings>) => {
+      setState((prev) => ({
+        components: components ?? [],
+        selectedId: null,
+        mode: 'edit',
+        page: { ...prev.page, ...page },
+      }));
+    },
+    []
+  );
 
   const select = useCallback((id: string | null) => {
     setState((prev) => ({ ...prev, selectedId: id }));
@@ -110,6 +124,25 @@ export function useEditorReducer() {
     });
   }, []);
 
+  /** Pindahkan komponen ke index absolut — dipakai drag & drop reorder. */
+  const moveComponentTo = useCallback((id: string, toIndex: number) => {
+    setState((prev) => {
+      const fromIndex = prev.components.findIndex((c) => c.id === id);
+      if (fromIndex < 0) return prev;
+      const clamped = Math.max(0, Math.min(toIndex, prev.components.length - 1));
+      if (clamped === fromIndex) return prev;
+      const next = [...prev.components];
+      const [moved] = next.splice(fromIndex, 1);
+      next.splice(clamped, 0, moved);
+      return { ...prev, components: next };
+    });
+  }, []);
+
+  /** Update pengaturan halaman (latar, border, lebar konten, device). */
+  const updatePage = useCallback((partial: Partial<PageSettings>) => {
+    setState((prev) => ({ ...prev, page: { ...prev.page, ...partial } }));
+  }, []);
+
   const updateComponentProps = useCallback((id: string, partialProps: Partial<ComponentProps>) => {
     setState((prev) => ({
       ...prev,
@@ -134,8 +167,10 @@ export function useEditorReducer() {
       removeComponent,
       duplicateComponent,
       moveComponent,
+      moveComponentTo,
       clearSelection,
       updateComponentProps,
+      updatePage,
       setMode,
     }),
     [
@@ -148,8 +183,10 @@ export function useEditorReducer() {
       removeComponent,
       duplicateComponent,
       moveComponent,
+      moveComponentTo,
       clearSelection,
       updateComponentProps,
+      updatePage,
       setMode,
     ]
   );

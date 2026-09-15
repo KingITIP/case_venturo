@@ -1,4 +1,4 @@
-import type { ReactNode, MouseEvent } from 'react';
+import type { ReactNode, DragEvent, MouseEvent } from 'react';
 
 import Box from '@mui/material/Box';
 
@@ -15,6 +15,12 @@ type ComponentFrameProps = {
   onMoveDown: () => void;
   onDuplicate: () => void;
   onRemove: () => void;
+  /** Drag & drop reorder — dipasang dari parent (satu draggable per komponen). */
+  draggable?: boolean;
+  onDragStart?: (e: DragEvent) => void;
+  onDragOver?: (e: DragEvent) => void;
+  onDragLeave?: (e: DragEvent) => void;
+  onDrop?: (e: DragEvent) => void;
   children: ReactNode;
 };
 
@@ -28,6 +34,11 @@ export function ComponentFrame({
   onMoveDown,
   onDuplicate,
   onRemove,
+  draggable,
+  onDragStart,
+  onDragOver,
+  onDragLeave,
+  onDrop,
   children,
 }: ComponentFrameProps) {
   // stopPropagation: klik pada komponen tidak boleh memicu clearSelection
@@ -40,6 +51,11 @@ export function ComponentFrame({
   return (
     <Box
       onClick={handleClick}
+      draggable={draggable}
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
       sx={{
         position: 'relative',
         borderRadius: 1,

@@ -13,10 +13,17 @@ type CanvasContentProps = {
   selectedId: string | null;
   /** false = render bersih (preview), tanpa frame/toolbar/interaksi. */
   interactive?: boolean;
+  /** Dipanggil saat drag & drop reorder (interactive only). */
+  onReorder?: (id: string, toIndex: number) => void;
 };
 
-/** Susun komponen vertikal; tiap node bisa dipilih & dikontrol (reorder/duplikat/hapus). */
-export function CanvasContent({ components, selectedId, interactive = true }: CanvasContentProps) {
+/** Susun komponen vertikal; tiap node bisa dipilih, drag-drop reorder, & dikontrol. */
+export function CanvasContent({
+  components,
+  selectedId,
+  interactive = true,
+  onReorder,
+}: CanvasContentProps) {
   const { select, moveComponent, duplicateComponent, removeComponent } = useEditor();
 
   if (components.length === 0) return null;
@@ -30,6 +37,35 @@ export function CanvasContent({ components, selectedId, interactive = true }: Ca
       </Stack>
     );
   }
+
+  // --- Native HTML5 drag & drop reorder --------------------------------
+  const handleDragStart = (e: React.DragEvent, id: string) => {
+    e.dataTransfer.setData('text/plain', id);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const target = e.currentTarget as HTMLElement;
+    target.style.outline = '2px solid #00a76f';
+    target.style.outlineOffset = '2px';
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    const target = e.currentTarget as HTMLElement;
+    target.style.outline = '';
+    target.style.outlineOffset = '';
+  };
+
+  const handleDrop = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData('text/plain');
+    const target = e.currentTarget as HTMLElement;
+    target.style.outline = '';
+    target.style.outlineOffset = '';
+    if (id && onReorder) onReorder(id, index);
+  };
 
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
@@ -46,6 +82,11 @@ export function CanvasContent({ components, selectedId, interactive = true }: Ca
             onMoveDown={() => moveComponent(node.id, 'down')}
             onDuplicate={() => duplicateComponent(node.id)}
             onRemove={() => removeComponent(node.id)}
+            draggable
+            onDragStart={(e) => handleDragStart(e, node.id)}
+            onDragOver={(e) => handleDragOver(e, index)}
+            onDragLeave={handleDragLeave}
+            onDrop={(e) => handleDrop(e, index)}
           >
             <ComponentRenderer node={node} />
           </ComponentFrame>

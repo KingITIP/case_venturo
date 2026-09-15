@@ -36,6 +36,12 @@ export type ComponentProps = {
   ratio?: string;
   bgcolor?: 'transparent' | 'muted';
   thickness?: 'thin' | 'medium';
+  /** Warna aksen (teks utama / label) — bebas hex */
+  color?: string;
+  /** Warna border — bebas hex */
+  borderColor?: string;
+  /** Ketebalan border (px) */
+  borderWidth?: number;
 };
 
 export type ComponentNode = {
@@ -50,10 +56,39 @@ export type EditorPageMeta = {
   title?: string;
 };
 
+/** Ukuran perangkat preview/kanvas (ala Carrd) */
+export type DeviceSize = 'mobile' | 'tablet' | 'desktop' | 'auto';
+
+/** Pengaturan halaman — latar, border, lebar konten, padding */
+export type PageSettings = {
+  /** Warna latar halaman (hex) */
+  backgroundColor: string;
+  /** Warna border halaman (hex) */
+  borderColor: string;
+  /** Ketebalan border halaman (px) */
+  borderWidth: number;
+  /** Lebar konten maksimum (px) */
+  maxWidth: number;
+  /** Padding konten (px) */
+  padding: number;
+  /** Ukuran perangkat aktif (preview & kanvas) */
+  device: DeviceSize;
+};
+
+export const DEFAULT_PAGE_SETTINGS: PageSettings = {
+  backgroundColor: '#ffffff',
+  borderColor: '#e0e0e0',
+  borderWidth: 0,
+  maxWidth: 720,
+  padding: 32,
+  device: 'desktop',
+};
+
 export type EditorState = {
   components: ComponentNode[];
   selectedId: string | null;
   mode: EditorMode;
+  page: PageSettings;
 };
 
 // ----------------------------------------------------------------------
