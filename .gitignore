@@ -40,3 +40,6 @@ tsconfig.tsbuildinfo
 _probe/
 backend/
 install_skills_hermes.txt
+
+# Production env — never commit real secrets
+.env.prod
