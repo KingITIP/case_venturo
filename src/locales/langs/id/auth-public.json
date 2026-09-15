@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "title": "Masuk"
+  },
+  "signIn": {
+    "title": "Selamat datang kembali",
+    "subtitle": "Masuk ke akun Venturo Builder kamu untuk melanjutkan.",
+    "fields": {
+      "email": "Email",
+      "emailPlaceholder": "nama@email.com",
+      "password": "Kata sandi",
+      "passwordPlaceholder": "Masukkan kata sandi"
+    },
+    "submit": "Masuk",
+    "submitting": "Memproses..."
+  },
+  "validation": {
+    "emailRequired": "Email wajib diisi.",
+    "emailInvalid": "Format email tidak valid.",
+    "passwordRequired": "Kata sandi wajib diisi.",
+    "passwordMin": "Kata sandi minimal 8 karakter."
+  },
+  "feedback": {
+    "success": "Login berhasil (mock). Selamat datang!",
+    "error": "Login gagal (mock). Periksa kembali email dan kata sandi kamu."
+  },
+  "secondary": {
+    "forgotPassword": "Lupa kata sandi?",
+    "noAccount": "Belum punya akun?",
+    "signUp": "Daftar"
+  },
+  "mockNote": "Mode demo: submit disimulasikan, belum terhubung backend."
+}
