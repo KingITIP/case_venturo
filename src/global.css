@@ -1,4 +1,12 @@
 /** **************************************
+* Tailwind CSS + daisyUI
+*************************************** */
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+}
+
+/** **************************************
 * Fonts: app
 *************************************** */
 @import '@fontsource-variable/public-sans';

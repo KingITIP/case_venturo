@@ -1,5 +1,6 @@
 import path from 'path';
 import checker from 'vite-plugin-checker';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
@@ -24,8 +25,9 @@ function manualChunks(id: string): string | undefined {
 
 export default defineConfig({
   plugins: [
-    react(),
-    checker({
+      react(),
+      tailwindcss(),
+      checker({
       typescript: true,
       eslint: {
         useFlatConfig: true,
