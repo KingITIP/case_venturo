@@ -36,5 +36,16 @@
     "emptyDescription": "Click a component on the canvas to view and edit its properties here.",
     "open": "Open properties panel",
     "close": "Close properties panel"
+  },
+  "renderer": {
+    "placeholder": {
+      "heading": "Write your title here",
+      "text": "Write your text here",
+      "button": "Button"
+    },
+    "containerLabel": "Container — child components go here"
+  },
+  "message": {
+    "unknownId": "Template not found, starting with a blank page."
   }
 }
