@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Choose a Starting Point"
+  },
+  "nav": {
+    "back": "Back",
+    "blankPage": "Blank Page"
+  },
+  "heading": {
+    "title": "Choose a Starting Point",
+    "subtitle": "Start from a blank page or pick a template as the base of your site. Everything can be customized later in the editor."
+  },
+  "categories": {
+    "all": "All",
+    "profile": "Profile",
+    "landing": "Landing",
+    "form": "Form",
+    "portfolio": "Portfolio",
+    "sectioned": "Sectioned"
+  },
+  "blank": {
+    "name": "Blank Page",
+    "description": "Start from zero, with no elements at all"
+  },
+  "card": {
+    "select": "Select"
+  },
+  "empty": {
+    "title": "No templates in this category yet",
+    "description": "Try another category, or start from a blank page."
+  },
+  "templates": {
+    "dummyProfile": "Profile",
+    "dummyLanding1": "Landing Page",
+    "dummyLanding2": "Landing Variant",
+    "dummyForm": "Form",
+    "dummyPortfolio": "Portfolio",
+    "dummyShowcase": "Showcase",
+    "dummySectioned": "Sectioned"
+  }
+}

@@ -6,11 +6,11 @@ import { BuildView } from '../views/build-view';
 // ----------------------------------------------------------------------
 
 export default function Page() {
-  const { t } = useTranslate('public');
+  const { t } = useTranslate('build');
 
   return (
     <>
-      <title>{`${t('build.title')} | ${CONFIG.appName}`}</title>
+      <title>{`${t('meta.title')} | ${CONFIG.appName}`}</title>
 
       <BuildView />
     </>
