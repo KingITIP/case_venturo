@@ -89,7 +89,19 @@
     "shapeCircle": "Lingkaran",
     "cornerRadius": "Pembulatan sudut",
     "uploadImage": "Unggah gambar dari perangkat",
-    "sectionBorder": "Border"
+    "sectionBorder": "Border",
+    "sectionText": "Teks",
+    "sectionColor": "Warna",
+    "sectionSize": "Ukuran",
+    "sectionLayout": "Tata letak",
+    "opacity": "Transparansi elemen",
+    "bgOpacity": "Transparansi latar",
+    "gap": "Jarak antar elemen",
+    "transparency": "Transparansi",
+    "sectionPadding": "Padding",
+    "sectionTransparency": "Transparansi",
+    "sectionChildren": "Isi wadah",
+    "addChildType": "Tambah elemen ke dalam wadah"
   },
   "device": {
     "label": "Ukuran perangkat",
@@ -107,6 +119,10 @@
     "padding": "Padding konten",
     "autoNote": "Klik latar halaman untuk mengubah pengaturan ini",
     "uploadBgImage": "Unggah gambar latar",
+    "bgFixed": "Latar menempel (fixed) — tidak ikut scroll",
+    "sectionBackground": "Latar",
+    "sectionLayout": "Tata letak",
+    "sectionBorder": "Border",
     "removeBgImage": "Hapus gambar latar",
     "gradientEnable": "Aktifkan gradient",
     "gradientFrom": "Warna awal gradient",
@@ -114,7 +130,8 @@
     "gradientAngle": "Sudut gradient",
     "fadeEnable": "Aktifkan fade warna (overlay)",
     "fadeColor": "Warna fade",
-    "fadeOpacity": "Opasitas fade"
+    "fadeOpacity": "Opasitas fade",
+    "fixBackground": "Latar menempel (fixed)"
   },
   "preview": {
     "header": "Pratinjau Halaman",
@@ -127,7 +144,8 @@
       "text": "Tulis teks di sini",
       "button": "Tombol"
     },
-    "containerLabel": "Wadah — komponen anak di sini"
+    "containerLabel": "Wadah — komponen anak di sini",
+    "containerEmpty": "Wadah kosong — klik + untuk menambah elemen"
   },
   "message": {
     "unknownId": "Template tidak ditemukan, memulai dengan halaman kosong.",

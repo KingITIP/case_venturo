@@ -101,7 +101,7 @@ export type PageSettings = {
   gradientTo?: string;
   /** Sudut gradient (derajat) */
   gradientAngle?: number;
-  /** Background halaman menempel (position: fixed) — default true */
+  /** Background fullscreen menempel (fixed) — tidak ikut scroll */
   bgFixed?: boolean;
 };
 

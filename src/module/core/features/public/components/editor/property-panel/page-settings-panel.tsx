@@ -2,15 +2,14 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
 import { useEditor } from '../../../store/editor-provider';
+import { SliderField, SectionLabel, ColorFieldWithAlpha } from './shared-fields';
 
 // ----------------------------------------------------------------------
 
@@ -24,36 +23,7 @@ export function ColorField({
   value: string;
   onChange: (color: string) => void;
 }) {
-  return (
-    <TextField
-      fullWidth
-      size="small"
-      label={label}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <Box
-              component="input"
-              type="color"
-              value={/^#[0-9a-fA-F]{6}$/.test(value) ? value : '#ffffff'}
-              onChange={(e) => onChange(e.target.value)}
-              sx={{
-                width: 26,
-                height: 26,
-                borderRadius: 1,
-                border: 'none',
-                background: 'none',
-                p: 0,
-                cursor: 'pointer',
-              }}
-            />
-          </InputAdornment>
-        ),
-      }}
-    />
-  );
+  return <ColorFieldWithAlpha label={label} value={value} onChange={onChange} />;
 }
 
 // ----------------------------------------------------------------------
@@ -116,6 +86,7 @@ export function PageSettingsPanel() {
   const { t } = useTranslate('editor');
   const { page, updatePage } = useEditor();
   const opacity = page.fadeOpacity ?? 0;
+  const bgFixed = page.bgFixed !== false; // default true
 
   return (
     <Box sx={{ px: 2, pb: 3 }}>
@@ -128,9 +99,25 @@ export function PageSettingsPanel() {
 
         <PageBgImageField />
 
-        <ColorField
+        {/* Background fullscreen FIXED toggle */}
+        <FormControlLabel
+          control={
+            <Checkbox
+              size="small"
+              checked={bgFixed}
+              onChange={(e) => updatePage({ bgFixed: e.target.checked })}
+            />
+          }
+          label={<Typography variant="body2">{t('page.bgFixed')}</Typography>}
+        />
+
+        <SectionLabel>{t('page.sectionBackground')}</SectionLabel>
+
+        <ColorFieldWithAlpha
           label={t('page.backgroundColor')}
           value={page.backgroundColor}
+          alpha={100 - opacity}
+          onAlphaChange={(alpha) => updatePage({ fadeOpacity: 100 - alpha })}
           onChange={(color) => updatePage({ backgroundColor: color })}
         />
 
@@ -156,18 +143,19 @@ export function PageSettingsPanel() {
               value={page.gradientTo ?? '#e0e0e0'}
               onChange={(color) => updatePage({ gradientTo: color })}
             />
-            <TextField
-              fullWidth
-              size="small"
-              type="number"
+            <SliderField
               label={t('page.gradientAngle')}
               value={page.gradientAngle ?? 135}
-              onChange={(e) => updatePage({ gradientAngle: Number(e.target.value) })}
-              InputProps={{ endAdornment: <InputAdornment position="end">°</InputAdornment> }}
+              min={0}
+              max={360}
+              step={1}
+              unit="°"
+              onChange={(angle) => updatePage({ gradientAngle: angle })}
             />
           </>
         )}
 
+        {/* Overlay gelap + opacity slider */}
         <FormControlLabel
           control={
             <Checkbox
@@ -185,20 +173,41 @@ export function PageSettingsPanel() {
               value={page.fadeColor ?? '#000000'}
               onChange={(color) => updatePage({ fadeColor: color })}
             />
-            <TextField
-              fullWidth
-              size="small"
-              type="number"
-              slotProps={{ htmlInput: { min: 0, max: 100 } }}
+            <SliderField
               label={t('page.fadeOpacity')}
               value={opacity}
-              onChange={(e) =>
-                updatePage({ fadeOpacity: Math.min(100, Math.max(0, Number(e.target.value))) })
-              }
-              InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
+              min={0}
+              max={100}
+              step={1}
+              unit="%"
+              onChange={(v) => updatePage({ fadeOpacity: v })}
             />
           </>
         )}
+
+        <SectionLabel>{t('page.sectionLayout')}</SectionLabel>
+
+        <SliderField
+          label={t('page.maxWidth')}
+          value={page.maxWidth}
+          min={320}
+          max={1280}
+          step={10}
+          unit="px"
+          onChange={(v) => updatePage({ maxWidth: v })}
+        />
+
+        <SliderField
+          label={t('page.padding')}
+          value={page.padding}
+          min={0}
+          max={100}
+          step={1}
+          unit="px"
+          onChange={(v) => updatePage({ padding: v })}
+        />
+
+        <SectionLabel>{t('page.sectionBorder')}</SectionLabel>
 
         <ColorField
           label={t('page.borderColor')}
@@ -206,34 +215,14 @@ export function PageSettingsPanel() {
           onChange={(color) => updatePage({ borderColor: color })}
         />
 
-        <TextField
-          fullWidth
-          size="small"
-          type="number"
+        <SliderField
           label={t('page.borderWidth')}
           value={page.borderWidth}
-          onChange={(e) => updatePage({ borderWidth: Number(e.target.value) })}
-          InputProps={{ endAdornment: <InputAdornment position="end">px</InputAdornment> }}
-        />
-
-        <TextField
-          fullWidth
-          size="small"
-          type="number"
-          label={t('page.maxWidth')}
-          value={page.maxWidth}
-          onChange={(e) => updatePage({ maxWidth: Number(e.target.value) })}
-          InputProps={{ endAdornment: <InputAdornment position="end">px</InputAdornment> }}
-        />
-
-        <TextField
-          fullWidth
-          size="small"
-          type="number"
-          label={t('page.padding')}
-          value={page.padding}
-          onChange={(e) => updatePage({ padding: Number(e.target.value) })}
-          InputProps={{ endAdornment: <InputAdornment position="end">px</InputAdornment> }}
+          min={0}
+          max={20}
+          step={1}
+          unit="px"
+          onChange={(v) => updatePage({ borderWidth: v })}
         />
       </Stack>
 

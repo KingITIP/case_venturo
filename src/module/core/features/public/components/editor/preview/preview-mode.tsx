@@ -8,8 +8,8 @@ import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
 import { DEVICE_WIDTHS } from '../editor-canvas';
-import { pageBackgroundStyle } from '../../../lib/page-style';
 import { CanvasContent } from '../../../renderer/canvas-content';
+import { pageFullBackgroundStyle } from '../../../lib/page-style';
 
 // ----------------------------------------------------------------------
 
@@ -59,15 +59,19 @@ export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
         </Button>
       </Box>
 
-      {/* Hasil render bersih, tanpa outline/toolbar */}
-      <Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 4 } }}>
+      {/* Area pratinjau: background fullscreen fixed di belakang, konten di tengah */}
+      <Box sx={{ flex: 1, position: 'relative', overflowY: 'auto', p: { xs: 2, md: 4 } }}>
+        {/* Lapisan background penuh (fixed, ala Carrd) */}
+        <Box aria-hidden sx={{ ...pageFullBackgroundStyle(page, page.bgFixed !== false) }} />
+
         <Box
           sx={{
+            position: 'relative',
+            zIndex: 1,
             maxWidth: deviceWidth,
             mx: 'auto',
             minHeight: '70vh',
             p: `${page.padding}px`,
-            background: pageBackgroundStyle(page),
             bgcolor: 'transparent',
             border: `${page.borderWidth}px solid ${page.borderColor}`,
             boxShadow: (theme) => theme.shadows[4],

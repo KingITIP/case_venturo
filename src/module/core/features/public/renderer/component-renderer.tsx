@@ -50,10 +50,13 @@ function imagePlaceholderSrc() {
 export function ComponentRenderer({
   node,
   preview = false,
+  onChildSelect,
 }: {
   node: ComponentNode;
   /** true = mode preview/built (interactive: link tombol bisa diklik, bukan editing). */
   preview?: boolean;
+  /** Dipanggil saat klik child di dalam container (mode edit) — untuk seleksi child. */
+  onChildSelect?: (childId: string) => void;
 }) {
   const { t } = useTranslate('editor');
   const { type, props = {} } = node;
@@ -134,7 +137,10 @@ export function ComponentRenderer({
                   }
                 : {}),
               ...(def.borderColor || def.borderWidth
-                ? { border: `${def.borderWidth ?? 1}px solid ${def.borderColor || 'divider'}`, p: framePadding(def) }
+                ? {
+                    border: `${def.borderWidth ?? 1}px solid ${def.borderColor || 'divider'}`,
+                    p: framePadding(def),
+                  }
                 : {}),
               ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
             }}
@@ -202,9 +208,23 @@ export function ComponentRenderer({
           }}
         >
           {node.children && node.children.length > 0 ? (
-            <Stack spacing={def.gap ?? 1.5} sx={{ alignItems: alignMap[def.align ?? 'left'] }}>
+            <Stack
+              spacing={def.gap ?? 1.5}
+              sx={{ alignItems: alignMap[def.align ?? 'left'], width: '100%' }}
+            >
               {node.children.map((child) => (
-                <ComponentRenderer key={child.id} node={child} preview={preview} />
+                <Box
+                  key={child.id}
+                  onClick={(e) => {
+                    if (onChildSelect) {
+                      e.stopPropagation();
+                      onChildSelect(child.id);
+                    }
+                  }}
+                  sx={{ width: '100%', cursor: onChildSelect ? 'pointer' : undefined }}
+                >
+                  <ComponentRenderer node={child} preview={!!onChildSelect || preview} />
+                </Box>
               ))}
             </Stack>
           ) : (

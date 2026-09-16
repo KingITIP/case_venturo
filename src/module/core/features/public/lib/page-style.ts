@@ -65,3 +65,32 @@ export function pageBackgroundStyle(page: PageSettings): {
     backgroundColor: bgColor,
   };
 }
+
+/**
+ * Gaya untuk LAPISAN BACKGROUND FULLSCREEN (di belakang page).
+ *
+ * Meniru anatomi Carrd (venturoexpert.carrd.co): sebuah elemen fixed
+ * 100vw x 100vh, z-index rendah, pointer-events none, memuat gambar
+ * cover + gradient + warna + overlay gelap. Konten (page) berada di
+ * atasnya dan bisa scroll sendiri tanpa menggerakkan lapisan ini.
+ *
+ * `fixed` = true  → position fixed (tidak ikut scroll, ala Carrd).
+ * `fixed` = false → position absolute (mengikuti konten, normal).
+ */
+export function pageFullBackgroundStyle(page: PageSettings, fixed?: boolean): React.CSSProperties {
+  const bg = pageBackgroundStyle(page);
+  return {
+    position: fixed ? 'fixed' : 'absolute',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    zIndex: 0,
+    pointerEvents: 'none',
+    backgroundImage: bg.backgroundImage,
+    backgroundColor: bg.backgroundColor,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  };
+}

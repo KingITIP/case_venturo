@@ -90,9 +90,7 @@ function mapNodes(
 function removeNode(nodes: ComponentNode[], id: string): ComponentNode[] {
   return nodes
     .filter((n) => n.id !== id)
-    .map((n) =>
-      n.children?.length ? { ...n, children: removeNode(n.children, id) } : n
-    );
+    .map((n) => (n.children?.length ? { ...n, children: removeNode(n.children, id) } : n));
 }
 
 /** Cari parent (node yang memiliki child dengan id). */
@@ -222,7 +220,10 @@ export function useEditorReducer() {
       const target = direction === 'up' ? childIndex - 1 : childIndex + 1;
       if (target < 0 || target >= siblings.length) return prev;
       const newChildren = [...siblings];
-      [newChildren[childIndex], newChildren[target]] = [newChildren[target], newChildren[childIndex]];
+      [newChildren[childIndex], newChildren[target]] = [
+        newChildren[target],
+        newChildren[childIndex],
+      ];
       return {
         ...prev,
         components: mapNodes(prev.components, parent.id, (p) => ({

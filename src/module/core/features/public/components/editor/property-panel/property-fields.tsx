@@ -8,9 +8,8 @@ import TextField from '@mui/material/TextField';
 import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
-import { ColorField } from './page-settings-panel';
 import { useEditor } from '../../../store/editor-provider';
-import { AlignSelect, SectionLabel } from './shared-fields';
+import { AlignSelect, SliderField, SectionLabel, ColorFieldWithAlpha } from './shared-fields';
 
 // ----------------------------------------------------------------------
 
@@ -93,6 +92,71 @@ function ImageUploadField({ node }: { node: ComponentNode }) {
 }
 
 // ----------------------------------------------------------------------
+// Fields bersama untuk border + transparansi — dipakai semua komponen.
+// ----------------------------------------------------------------------
+
+function BorderFields({ node }: { node: ComponentNode }) {
+  const { t } = useTranslate('editor');
+  const { updateComponentProps } = useEditor();
+
+  return (
+    <>
+      <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
+      <ColorFieldWithAlpha
+        label={t('fields.borderColor')}
+        value={node.props?.borderColor || '#e0e0e0'}
+        onChange={(color) => updateComponentProps(node.id, { borderColor: color })}
+      />
+      <SliderField
+        label={t('fields.borderWidth')}
+        value={node.props?.borderWidth ?? 1}
+        min={0}
+        max={20}
+        step={1}
+        unit="px"
+        onChange={(v) => updateComponentProps(node.id, { borderWidth: v })}
+      />
+    </>
+  );
+}
+
+/** Transparansi keseluruhan elemen (opacity 0-100). */
+function OpacityField({ node }: { node: ComponentNode }) {
+  const { t } = useTranslate('editor');
+  const { updateComponentProps } = useEditor();
+
+  return (
+    <SliderField
+      label={t('fields.opacity')}
+      value={node.props?.opacity ?? 100}
+      min={0}
+      max={100}
+      step={1}
+      unit="%"
+      onChange={(v) => updateComponentProps(node.id, { opacity: v })}
+    />
+  );
+}
+
+/** Transparansi latar (bgOpacity 0-100) — button & container. */
+function BgOpacityField({ node }: { node: ComponentNode }) {
+  const { t } = useTranslate('editor');
+  const { updateComponentProps } = useEditor();
+
+  return (
+    <SliderField
+      label={t('fields.bgOpacity')}
+      value={node.props?.bgOpacity ?? 100}
+      min={0}
+      max={100}
+      step={1}
+      unit="%"
+      onChange={(v) => updateComponentProps(node.id, { bgOpacity: v })}
+    />
+  );
+}
+
+// ----------------------------------------------------------------------
 
 /** Form properti per tipe komponen — semua perubahan langsung update state (live). */
 export function PropertyFields({ node }: { node: ComponentNode }) {
@@ -127,25 +191,14 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
-          <ColorField
+          <SectionLabel>{t('fields.sectionText')}</SectionLabel>
+          <ColorFieldWithAlpha
             label={t('fields.color')}
             value={props.color || '#000000'}
             onChange={(color) => set({ color })}
           />
-          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
-          <ColorField
-            label={t('fields.borderColor')}
-            value={props.borderColor || '#e0e0e0'}
-            onChange={(color) => set({ borderColor: color })}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            type="number"
-            label={t('fields.borderWidth')}
-            value={props.borderWidth ?? 1}
-            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
-          />
+          <OpacityField node={node} />
+          <BorderFields node={node} />
         </Box>
       );
 
@@ -162,25 +215,14 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             onChange={(e) => set({ text: e.target.value })}
           />
           <AlignSelect node={node} />
-          <ColorField
+          <SectionLabel>{t('fields.sectionText')}</SectionLabel>
+          <ColorFieldWithAlpha
             label={t('fields.color')}
             value={props.color || '#000000'}
             onChange={(color) => set({ color })}
           />
-          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
-          <ColorField
-            label={t('fields.borderColor')}
-            value={props.borderColor || '#e0e0e0'}
-            onChange={(color) => set({ borderColor: color })}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            type="number"
-            label={t('fields.borderWidth')}
-            value={props.borderWidth ?? 1}
-            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
-          />
+          <OpacityField node={node} />
+          <BorderFields node={node} />
         </Box>
       );
 
@@ -216,33 +258,25 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
-          <ColorField
+          <SectionLabel>{t('fields.sectionColor')}</SectionLabel>
+          <ColorFieldWithAlpha
             label={t('fields.color')}
             value={props.color || '#00a76f'}
             onChange={(color) => set({ color })}
           />
-          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
-          <ColorField
-            label={t('fields.borderColor')}
-            value={props.borderColor || '#e0e0e0'}
-            onChange={(color) => set({ borderColor: color })}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            type="number"
-            label={t('fields.borderWidth')}
-            value={props.borderWidth ?? 1}
-            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            type="number"
+          <BgOpacityField node={node} />
+          <OpacityField node={node} />
+          <BorderFields node={node} />
+          <SectionLabel>{t('fields.sectionSize')}</SectionLabel>
+          <SliderField
             label={t('fields.padding')}
             value={props.padding ?? 0}
-            onChange={(e) => set({ padding: Number(e.target.value) })}
-            helperText={t('fields.paddingHelper')}
+            min={0}
+            max={100}
+            step={1}
+            unit="px"
+            onChange={(v) => set({ padding: v })}
+            // helperText={t('fields.paddingHelper')}
           />
         </Box>
       );
@@ -295,37 +329,28 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             ))}
           </TextField>
           {props.shape !== 'circle' && (
-            <TextField
-              fullWidth
-              size="small"
-              type="number"
+            <SliderField
               label={t('fields.cornerRadius')}
               value={props.cornerRadius ?? 0}
-              onChange={(e) => set({ cornerRadius: Number(e.target.value) })}
+              min={0}
+              max={100}
+              step={1}
+              unit="px"
+              onChange={(v) => set({ cornerRadius: v })}
             />
           )}
-          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
-          <ColorField
-            label={t('fields.borderColor')}
-            value={props.borderColor || '#e0e0e0'}
-            onChange={(color) => set({ borderColor: color })}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            type="number"
-            label={t('fields.borderWidth')}
-            value={props.borderWidth ?? 1}
-            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            type="number"
+          <OpacityField node={node} />
+          <BorderFields node={node} />
+          <SectionLabel>{t('fields.sectionSize')}</SectionLabel>
+          <SliderField
             label={t('fields.padding')}
             value={props.padding ?? 0}
-            onChange={(e) => set({ padding: Number(e.target.value) })}
-            helperText={t('fields.paddingImageHelper')}
+            min={0}
+            max={100}
+            step={1}
+            unit="px"
+            onChange={(v) => set({ padding: v })}
+            // helperText={t('fields.paddingImageHelper')}
           />
         </Box>
       );
@@ -362,38 +387,40 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             ))}
           </TextField>
           {props.shape !== 'circle' && (
-            <TextField
-              fullWidth
-              size="small"
-              type="number"
+            <SliderField
               label={t('fields.cornerRadius')}
               value={props.cornerRadius ?? 0}
-              onChange={(e) => set({ cornerRadius: Number(e.target.value) })}
+              min={0}
+              max={100}
+              step={1}
+              unit="px"
+              onChange={(v) => set({ cornerRadius: v })}
             />
           )}
-          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
-          <ColorField
-            label={t('fields.borderColor')}
-            value={props.borderColor || '#e0e0e0'}
-            onChange={(color) => set({ borderColor: color })}
+          <SectionLabel>{t('fields.sectionLayout')}</SectionLabel>
+          <SliderField
+            label={t('fields.gap')}
+            value={props.gap ?? 12}
+            min={0}
+            max={60}
+            step={1}
+            unit="px"
+            onChange={(v) => set({ gap: v })}
           />
-          <TextField
-            fullWidth
-            size="small"
-            type="number"
-            label={t('fields.borderWidth')}
-            value={props.borderWidth ?? 1}
-            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            type="number"
+          <SliderField
             label={t('fields.padding')}
             value={props.padding ?? 0}
-            onChange={(e) => set({ padding: Number(e.target.value) })}
-            helperText={t('fields.paddingHelper')}
+            min={0}
+            max={100}
+            step={1}
+            unit="px"
+            onChange={(v) => set({ padding: v })}
+            // helperText={t('fields.paddingHelper')}
           />
+          <SectionLabel>{t('fields.sectionColor')}</SectionLabel>
+          <BgOpacityField node={node} />
+          <OpacityField node={node} />
+          <BorderFields node={node} />
         </Box>
       );
 
@@ -414,11 +441,12 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
-          <ColorField
+          <ColorFieldWithAlpha
             label={t('fields.borderColor')}
             value={props.borderColor || '#e0e0e0'}
             onChange={(color) => set({ borderColor: color })}
           />
+          <OpacityField node={node} />
         </Box>
       );
 

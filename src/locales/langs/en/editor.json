@@ -89,7 +89,19 @@
     "shapeCircle": "Circle",
     "cornerRadius": "Corner rounding",
     "uploadImage": "Upload image from your device",
-    "sectionBorder": "Border"
+    "sectionBorder": "Border",
+    "sectionText": "Text",
+    "sectionColor": "Color",
+    "sectionSize": "Size",
+    "sectionLayout": "Layout",
+    "opacity": "Element opacity",
+    "bgOpacity": "Background opacity",
+    "gap": "Gap between elements",
+    "transparency": "Transparency",
+    "sectionPadding": "Padding",
+    "sectionTransparency": "Transparency",
+    "sectionChildren": "Container content",
+    "addChildType": "Add element into container"
   },
   "device": {
     "label": "Device size",
@@ -107,6 +119,10 @@
     "padding": "Content padding",
     "autoNote": "Click the page background to edit these settings",
     "uploadBgImage": "Upload background image",
+    "bgFixed": "Fixed background — doesn't scroll",
+    "sectionBackground": "Background",
+    "sectionLayout": "Layout",
+    "sectionBorder": "Border",
     "removeBgImage": "Remove background image",
     "gradientEnable": "Enable gradient",
     "gradientFrom": "Gradient start color",
@@ -114,7 +130,8 @@
     "gradientAngle": "Gradient angle",
     "fadeEnable": "Enable color fade (overlay)",
     "fadeColor": "Fade color",
-    "fadeOpacity": "Fade opacity"
+    "fadeOpacity": "Fade opacity",
+    "fixBackground": "Fixed background"
   },
   "preview": {
     "header": "Page Preview",
@@ -127,7 +144,8 @@
       "text": "Write your text here",
       "button": "Button"
     },
-    "containerLabel": "Container — child components go here"
+    "containerLabel": "Container — child components go here",
+    "containerEmpty": "Empty container — click + to add elements"
   },
   "message": {
     "unknownId": "Template not found, starting with a blank page.",
