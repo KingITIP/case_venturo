@@ -9,7 +9,7 @@ import { DEFAULT_PAGE_SETTINGS } from '../types/editor';
 // ----------------------------------------------------------------------
 
 const STORAGE_PREFIX = 'venturo.builder.';
-const STORAGE_VERSION = 2;
+const STORAGE_VERSION = 3;
 
 export type StoredSite = {
   version: number;

@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
+import { findNode } from '../../store/editor-context';
 import { editorPaletteItems } from '../../types/editor';
 import { useEditor } from '../../store/editor-provider';
 import { PropertyFields } from './property-panel/property-fields';
@@ -20,7 +21,8 @@ export function EditorPropertyPanel() {
   const { t } = useTranslate('editor');
   const { components, selectedId } = useEditor();
 
-  const selected = components.find((c) => c.id === selectedId) ?? null;
+  // Cari node terpilih di SEMUA level (termasuk child di dalam container).
+  const selected = selectedId ? (findNode(components, selectedId) ?? null) : null;
   const definition = selected ? editorPaletteItems.find((d) => d.type === selected.type) : null;
 
   const isPageSelected = selectedId === 'page';

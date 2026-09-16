@@ -17,7 +17,7 @@ type CanvasContentProps = {
   onReorder?: (id: string, toIndex: number) => void;
 };
 
-/** Susun komponen vertikal; tiap node bisa dipilih, drag-drop reorder, & dikontrol. */
+/** Susun komponen vertikal; tiap node (termasuk child container) bisa dipilih, di-reorder, dikontrol. */
 export function CanvasContent({
   components,
   selectedId,
@@ -32,7 +32,7 @@ export function CanvasContent({
     return (
       <Stack spacing={3} sx={{ width: '100%' }}>
         {components.map((node) => (
-          <ComponentRenderer key={node.id} node={node} />
+          <ComponentRenderer key={node.id} node={node} preview />
         ))}
       </Stack>
     );
@@ -44,7 +44,7 @@ export function CanvasContent({
     e.dataTransfer.effectAllowed = 'move';
   };
 
-  const handleDragOver = (e: React.DragEvent, index: number) => {
+  const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
     const target = e.currentTarget as HTMLElement;
@@ -67,31 +67,35 @@ export function CanvasContent({
     if (id && onReorder) onReorder(id, index);
   };
 
+  /** Render satu node (dengan frame/selection). Children container dirender
+   *  oleh ComponentRenderer sendiri (recursive) — kita hanya membungkus frame. */
+  const renderNode = (node: ComponentNode, index: number, siblings: ComponentNode[]) => {
+    const selected = node.id === selectedId;
+    return (
+      <ComponentFrame
+        key={node.id}
+        selected={selected}
+        canMoveUp={index > 0}
+        canMoveDown={index < siblings.length - 1}
+        onSelect={() => select(node.id)}
+        onMoveUp={() => moveComponent(node.id, 'up')}
+        onMoveDown={() => moveComponent(node.id, 'down')}
+        onDuplicate={() => duplicateComponent(node.id)}
+        onRemove={() => removeComponent(node.id)}
+        draggable
+        onDragStart={(e) => handleDragStart(e, node.id)}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={(e) => handleDrop(e, index)}
+      >
+        <ComponentRenderer node={node} onChildSelect={select} />
+      </ComponentFrame>
+    );
+  };
+
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
-      {components.map((node, index) => {
-        const selected = node.id === selectedId;
-        return (
-          <ComponentFrame
-            key={node.id}
-            selected={selected}
-            canMoveUp={index > 0}
-            canMoveDown={index < components.length - 1}
-            onSelect={() => select(node.id)}
-            onMoveUp={() => moveComponent(node.id, 'up')}
-            onMoveDown={() => moveComponent(node.id, 'down')}
-            onDuplicate={() => duplicateComponent(node.id)}
-            onRemove={() => removeComponent(node.id)}
-            draggable
-            onDragStart={(e) => handleDragStart(e, node.id)}
-            onDragOver={(e) => handleDragOver(e, index)}
-            onDragLeave={handleDragLeave}
-            onDrop={(e) => handleDrop(e, index)}
-          >
-            <ComponentRenderer node={node} />
-          </ComponentFrame>
-        );
-      })}
+      {components.map((node, index) => renderNode(node, index, components))}
     </Stack>
   );
 }

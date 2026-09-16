@@ -9,6 +9,7 @@ import { Iconify } from 'src/shared/ui/iconify';
 
 import { DEVICE_WIDTHS } from '../editor-canvas';
 import { CanvasContent } from '../../../renderer/canvas-content';
+import { pageFullBackgroundStyle } from '../../../lib/page-style';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +33,8 @@ export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
         bgcolor: 'background.default',
       }}
     >
-      {/* Kontrol kecil untuk kembali ke editor */}
+      {/* Kontrol kecil untuk kembali ke editor — bg solid + zIndex agar tetap
+          terlihat jelas di atas background halaman (yang bisa putih penuh). */}
       <Box
         component="header"
         sx={{
@@ -43,6 +45,9 @@ export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
           py: 1,
           borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           bgcolor: 'background.paper',
+          zIndex: 20,
+          position: 'relative',
+          boxShadow: (theme) => theme.shadows[2],
         }}
       >
         <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
@@ -50,7 +55,8 @@ export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
         </Typography>
         <Button
           size="small"
-          variant="outlined"
+          variant="contained"
+          color="primary"
           startIcon={<Iconify icon="solar:pen-bold" width={16} />}
           onClick={onExit}
         >
@@ -58,15 +64,20 @@ export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
         </Button>
       </Box>
 
-      {/* Hasil render bersih, tanpa outline/toolbar */}
-      <Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 4 } }}>
+      {/* Area pratinjau: background fullscreen fixed di belakang, konten di tengah */}
+      <Box sx={{ flex: 1, position: 'relative', overflowY: 'auto', p: { xs: 2, md: 4 } }}>
+        {/* Lapisan background penuh (fixed, ala Carrd) */}
+        <Box aria-hidden sx={{ ...pageFullBackgroundStyle(page, page.bgFixed !== false) }} />
+
         <Box
           sx={{
+            position: 'relative',
+            zIndex: 1,
             maxWidth: deviceWidth,
             mx: 'auto',
             minHeight: '70vh',
             p: `${page.padding}px`,
-            bgcolor: page.backgroundColor,
+            bgcolor: 'transparent',
             border: `${page.borderWidth}px solid ${page.borderColor}`,
             boxShadow: (theme) => theme.shadows[4],
             borderRadius: 1,

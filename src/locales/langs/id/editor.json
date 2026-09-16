@@ -1,6 +1,7 @@
 {
   "meta": {
-    "title": "Editor"
+    "title": "Editor",
+    "publishTitle": "Publish Lokal"
   },
   "topbar": {
     "back": "Kembali",
@@ -12,9 +13,9 @@
     "saved": "Tersimpan ✓",
     "undo": "Undo",
     "redo": "Redo",
-    "togglePalette": "Buka panel komponen",
     "toggleProperties": "Buka panel properti",
-    "comingSoon": "Fitur ini akan tersedia di iterasi berikutnya."
+    "comingSoon": "Fitur ini akan tersedia di iterasi berikutnya.",
+    "addElement": "Tambah elemen"
   },
   "properties": {
     "title": "Properti",
@@ -52,6 +53,7 @@
     "text": "Teks",
     "label": "Label",
     "href": "Tautan (href)",
+    "hrefHelper": "Tempel URL (https://...). Saat pratinjau, tombol membuka tautan tersebut.",
     "src": "URL Gambar",
     "srcHelper": "Kosongkan untuk memakai placeholder default.",
     "alt": "Teks alternatif (alt)",
@@ -72,6 +74,7 @@
     "ratioClassic": "Klasik (4:3)",
     "ratioSquare": "Kotak (1:1)",
     "bgcolor": "Latar",
+    "bgColor": "Warna latar container",
     "bgTransparent": "Transparan",
     "bgMuted": "Abu-abu",
     "thickness": "Ketebalan",
@@ -79,23 +82,82 @@
     "thicknessMedium": "Sedang",
     "color": "Warna teks",
     "borderColor": "Warna border",
-    "borderWidth": "Ketebalan border"
+    "borderWidth": "Ketebalan border",
+    "padding": "Padding",
+    "paddingHelper": "Jarak antara border dan konten (px).",
+    "paddingImageHelper": "Jarak antara border dan gambar (px).",
+    "shape": "Bentuk",
+    "shapeRectangle": "Persegi",
+    "shapeCircle": "Lingkaran",
+    "cornerRadius": "Pembulatan sudut",
+    "uploadImage": "Unggah gambar dari perangkat",
+    "sectionBorder": "Border",
+    "sectionText": "Teks",
+    "sectionColor": "Warna",
+    "sectionSize": "Ukuran",
+    "sectionLayout": "Tata letak",
+    "opacity": "Transparansi elemen",
+    "bgOpacity": "Transparansi latar",
+    "gap": "Jarak antar elemen",
+    "width": "Lebar (width)",
+    "height": "Tinggi (height)",
+    "transparency": "Transparansi",
+    "sectionPadding": "Padding",
+    "sectionTransparency": "Transparansi",
+    "sectionChildren": "Isi wadah",
+    "addChildType": "Tambah elemen ke dalam wadah",
+    "icon": "Ikon",
+    "iconNone": "Tanpa Ikon",
+    "iconWhatsapp": "WhatsApp",
+    "iconGlobe": "Globe / Web",
+    "iconPhone": "Telepon",
+    "iconEmail": "Email",
+    "iconArrow": "Panah",
+    "iconExternal": "Link Luar",
+    "iconPosition": "Posisi Ikon",
+    "iconLeft": "Kiri",
+    "iconRight": "Kanan",
+    "iconSize": "Ukuran Ikon",
+    "preset": "Tipe Tombol",
+    "presetNone": "Biasa (tanpa preset)",
+    "presetWhatsapp": "WhatsApp",
+    "presetWebsite": "Website",
+    "phone": "Nomor WhatsApp",
+    "waMessage": "Pesan (opsional)"
   },
   "device": {
     "label": "Ukuran perangkat",
     "mobile": "HP",
     "tablet": "Tablet",
     "desktop": "PC",
-    "auto": "Otomatis"
+    "auto": "Full"
   },
   "page": {
     "title": "Pengaturan halaman",
     "backgroundColor": "Warna latar",
     "borderColor": "Warna border",
     "borderWidth": "Ketebalan border",
-    "maxWidth": "Lebar maks. konten",
+    "maxWidth": "Lebar halaman (width)",
     "padding": "Padding konten",
-    "autoNote": "Klik latar halaman untuk mengubah pengaturan ini"
+    "paperColor": "Warna kertas page",
+    "paperOpacity": "Transparansi kertas page",
+    "paperShadow": "Efek bayangan (shadow)",
+    "autoNote": "Klik latar halaman untuk mengubah pengaturan ini",
+    "uploadBgImage": "Unggah gambar latar",
+    "bgFixed": "Latar menempel (fixed) — tidak ikut scroll",
+    "sectionBackground": "Latar",
+    "sectionLayout": "Tata letak",
+    "sectionBorder": "Border",
+    "sectionPaper": "Kertas Page",
+    "removeBgImage": "Hapus gambar latar",
+    "gradientEnable": "Aktifkan gradient",
+    "gradientFrom": "Warna awal gradient",
+    "gradientTo": "Warna akhir gradient",
+    "gradientAngle": "Sudut gradient",
+    "fadeEnable": "Aktifkan fade warna (overlay)",
+    "fadeColor": "Warna fade",
+    "fadeOpacity": "Opasitas fade",
+    "fixBackground": "Latar menempel (fixed)"
   },
   "preview": {
     "header": "Pratinjau Halaman",
@@ -108,11 +170,40 @@
       "text": "Tulis teks di sini",
       "button": "Tombol"
     },
-    "containerLabel": "Wadah — komponen anak di sini"
+    "containerLabel": "Wadah — komponen anak di sini",
+    "containerEmpty": "Wadah kosong — klik + untuk menambah elemen"
   },
   "message": {
     "unknownId": "Template tidak ditemukan, memulai dengan halaman kosong.",
     "saveSuccess": "Tersimpan! Perubahanmu aman di browser ini.",
     "saveError": "Gagal menyimpan. Periksa penyimpanan browser."
+  },
+  "publish": {
+    "localBadge": "Publish Lokal",
+    "viewLink": "Lihat /publish",
+    "emptyTitle": "Belum ada halaman yang disimpan",
+    "emptyDescription": "Buka editor, bangun halaman, lalu klik Save.",
+    "toBuild": "Mulai Membangun",
+    "updatedAt": "Terakhir disimpan: {{time}}",
+    "toEditor": "Buka Editor",
+    "refresh": "Muat Ulang"
+  },
+  "bg": {
+    "title": "Pengaturan Background",
+    "uploadImage": "Unggah gambar latar",
+    "removeImage": "Hapus gambar latar",
+    "bgFixed": "Latar menempel (fixed) — tidak ikut scroll",
+    "sectionBackground": "Latar",
+    "backgroundColor": "Warna latar",
+    "gradientEnable": "Aktifkan gradient",
+    "gradientFrom": "Warna awal gradient",
+    "gradientTo": "Warna akhir gradient",
+    "gradientAngle": "Sudut gradient",
+    "fadeEnable": "Aktifkan fade warna (overlay)",
+    "fadeColor": "Warna fade",
+    "fadeOpacity": "Opasitas fade"
+  },
+  "preset": {
+    "waHelper": "Format: api.whatsapp.com/send/?phone=628xx&text=..."
   }
 }
