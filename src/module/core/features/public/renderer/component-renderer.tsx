@@ -34,6 +34,11 @@ function frameRadius(shape: ComponentProps['shape'], cornerRadius?: number): num
   return cornerRadius && cornerRadius > 0 ? cornerRadius : 0;
 }
 
+/** Opasitas keseluruhan elemen (0–100) → CSS opacity. */
+function elementOpacity(def: ComponentProps): number | undefined {
+  return def.opacity !== undefined && def.opacity < 100 ? def.opacity / 100 : undefined;
+}
+
 function imagePlaceholderSrc() {
   // Data URI SVG abu-abu dengan ikon — offline-friendly
   return `data:image/svg+xml;utf8,${encodeURIComponent(
@@ -66,6 +71,7 @@ export function ComponentRenderer({
             color: def.color || '#000000',
             ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
             ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
+            ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
           }}
         >
           {def.text || t('renderer.placeholder.heading')}
@@ -82,6 +88,7 @@ export function ComponentRenderer({
             maxWidth: 640,
             ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
             ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
+            ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
           }}
         >
           {def.text || t('renderer.placeholder.text')}
@@ -89,45 +96,53 @@ export function ComponentRenderer({
       );
 
     case 'button':
-          return def.variant === 'link' ? (
-            <Typography
-              component="a"
-              href={def.href || '#'}
-              target={def.href && !def.href.startsWith('#') ? '_blank' : undefined}
-              rel="noopener noreferrer"
-              sx={{
-                color: def.color || 'primary.main',
-                textAlign: alignMap[def.align ?? 'left'],
-                display: 'inline-block',
-                pointerEvents: preview ? 'auto' : 'none',
-                ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
-                ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
-              }}
-            >
-              {def.label || t('renderer.placeholder.button')}
-            </Typography>
-          ) : (
-            <Box sx={{ textAlign: alignMap[def.align ?? 'left'] }}>
-              <Button
-                variant={def.variant === 'outline' ? 'outlined' : 'contained'}
-                href={def.href || '#'}
-                target={def.href && !def.href.startsWith('#') ? '_blank' : undefined}
-                rel="noopener noreferrer"
-                size="medium"
-                sx={{
-                  pointerEvents: preview ? 'auto' : 'none',
-                  textTransform: 'none',
-                  borderRadius: 1.5,
-                  ...(def.color ? { bgcolor: def.variant === 'outline' ? 'transparent' : def.color, color: '#fff', borderColor: def.color } : {}),
-                  ...(def.borderColor || def.borderWidth
-                    ? { border: `${def.borderWidth ?? 1}px solid ${def.borderColor || 'divider'}`, p: framePadding(def) }
-                    : {}),
-                }}
-              >
-                {def.label || t('renderer.placeholder.button')}
-              </Button>
-            </Box>
-          );
+      return def.variant === 'link' ? (
+        <Typography
+          component="a"
+          href={def.href || '#'}
+          target={def.href && !def.href.startsWith('#') ? '_blank' : undefined}
+          rel="noopener noreferrer"
+          sx={{
+            color: def.color || 'primary.main',
+            textAlign: alignMap[def.align ?? 'left'],
+            display: 'inline-block',
+            pointerEvents: preview ? 'auto' : 'none',
+            ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
+            ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
+            ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
+          }}
+        >
+          {def.label || t('renderer.placeholder.button')}
+        </Typography>
+      ) : (
+        <Box sx={{ textAlign: alignMap[def.align ?? 'left'] }}>
+          <Button
+            variant={def.variant === 'outline' ? 'outlined' : 'contained'}
+            href={def.href || '#'}
+            target={def.href && !def.href.startsWith('#') ? '_blank' : undefined}
+            rel="noopener noreferrer"
+            size="medium"
+            sx={{
+              pointerEvents: preview ? 'auto' : 'none',
+              textTransform: 'none',
+              borderRadius: 1.5,
+              ...(def.color
+                ? {
+                    bgcolor: def.variant === 'outline' ? 'transparent' : def.color,
+                    color: '#fff',
+                    borderColor: def.color,
+                  }
+                : {}),
+              ...(def.borderColor || def.borderWidth
+                ? { border: `${def.borderWidth ?? 1}px solid ${def.borderColor || 'divider'}`, p: framePadding(def) }
+                : {}),
+              ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
+            }}
+          >
+            {def.label || t('renderer.placeholder.button')}
+          </Button>
+        </Box>
+      );
 
     case 'image': {
       // Gambar dengan frame: border + padding (jarak border→gambar) + shape (rectangle/circle) + corner radius
@@ -145,6 +160,7 @@ export function ComponentRenderer({
             overflow: 'hidden',
             mx: 'auto',
             bgcolor: 'background.neutral',
+            ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
           }}
         >
           <Box
@@ -175,22 +191,34 @@ export function ComponentRenderer({
             px: 3,
             borderRadius: frameRadius(def.shape, def.cornerRadius),
             bgcolor: def.bgcolor === 'muted' ? 'background.neutral' : 'transparent',
+            ...(def.bgOpacity !== undefined && def.bgOpacity < 100
+              ? { bgcolor: `rgba(0, 0, 0, ${(def.bgOpacity / 100) * 0.08})` }
+              : {}),
             ...(def.borderColor || def.borderWidth ? borderStyle(def) : {}),
             border: !def.borderColor && !def.borderWidth ? '1px dashed' : undefined,
             borderColor: !def.borderColor && !def.borderWidth ? 'divider' : undefined,
             ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
+            ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
           }}
         >
-          <Stack spacing={1.5} sx={{ alignItems: alignMap[def.align ?? 'left'] }}>
-            <Iconify
-              icon="solar:box-minimalistic-bold"
-              width={24}
-              sx={{ color: 'text.disabled' }}
-            />
-            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              {t('renderer.containerLabel')}
-            </Typography>
-          </Stack>
+          {node.children && node.children.length > 0 ? (
+            <Stack spacing={def.gap ?? 1.5} sx={{ alignItems: alignMap[def.align ?? 'left'] }}>
+              {node.children.map((child) => (
+                <ComponentRenderer key={child.id} node={child} preview={preview} />
+              ))}
+            </Stack>
+          ) : (
+            <Stack spacing={1.5} sx={{ alignItems: 'center', color: 'text.disabled', py: 2 }}>
+              <Iconify
+                icon="solar:box-minimalistic-bold"
+                width={24}
+                sx={{ color: 'text.disabled' }}
+              />
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                {t('renderer.containerEmpty')}
+              </Typography>
+            </Stack>
+          )}
         </Box>
       );
 
