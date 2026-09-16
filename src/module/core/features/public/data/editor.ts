@@ -6,9 +6,9 @@ import type { ComponentNode, ComponentProps, EditorComponentType } from '../type
 // ----------------------------------------------------------------------
 
 export const defaultPropsByType: Record<EditorComponentType, ComponentProps> = {
-  heading: { text: 'Tulis judul di sini', align: 'left', level: 2 },
-  text: { text: 'Tulis teks di sini', align: 'left' },
-  button: { label: 'Tombol', href: '#', variant: 'filled' },
+  heading: { text: 'Tulis judul di sini', align: 'left', level: 2, color: '#000000' },
+  text: { text: 'Tulis teks di sini', align: 'left', color: '#000000' },
+  button: { label: 'Tombol', href: '#', variant: 'filled', color: '#000000' },
   image: { src: undefined, alt: 'Gambar', ratio: '16:9' },
   container: { bgcolor: 'transparent' },
   divider: { thickness: 'medium' },

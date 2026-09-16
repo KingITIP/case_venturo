@@ -45,7 +45,7 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
           sx={{
             textAlign: alignMap[def.align ?? 'left'],
             fontWeight: 700,
-            color: def.color || 'text.primary',
+            color: def.color || '#000000',
           }}
         >
           {def.text || t('renderer.placeholder.heading')}
@@ -58,7 +58,7 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
           variant="body1"
           sx={{
             textAlign: alignMap[def.align ?? 'left'],
-            color: def.color || 'text.primary',
+            color: def.color || '#000000',
             maxWidth: 640,
           }}
         >
