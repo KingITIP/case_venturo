@@ -1,5 +1,7 @@
 import type { ComponentNode } from '../../../types/editor';
 
+import { useState, useEffect } from 'react';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
@@ -46,7 +48,27 @@ const SHAPE_OPTIONS = [
   { value: 'circle', key: 'fields.shapeCircle' },
 ] as const;
 
-// ----------------------------------------------------------------------
+// Ikon button yang tersedia — pakai ikon yang SUDAH terdaftar di icon-sets.
+const BUTTON_ICON_OPTIONS = [
+  { value: '', key: 'fields.iconNone' },
+  { value: 'mdi:whatsapp', key: 'fields.iconWhatsapp' },
+  { value: 'ph:globe-bold', key: 'fields.iconGlobe' },
+  { value: 'solar:phone-bold', key: 'fields.iconPhone' },
+  { value: 'solar:inbox-bold', key: 'fields.iconEmail' },
+  { value: 'solar:forward-bold', key: 'fields.iconArrow' },
+  { value: 'solar:export-bold', key: 'fields.iconExternal' },
+] as const;
+
+const ICON_POSITION_OPTIONS = [
+  { value: 'left', key: 'fields.iconLeft' },
+  { value: 'right', key: 'fields.iconRight' },
+] as const;
+
+const PRESET_OPTIONS = [
+  { value: 'none', key: 'fields.presetNone' },
+  { value: 'whatsapp', key: 'fields.presetWhatsapp' },
+  { value: 'website', key: 'fields.presetWebsite' },
+] as const;
 
 /** Field upload gambar dari file lokal → data URL (disimpan di props.src). */
 function ImageUploadField({ node }: { node: ComponentNode }) {
@@ -156,7 +178,182 @@ function BgOpacityField({ node }: { node: ComponentNode }) {
   );
 }
 
+/** Ukuran elemen (width/height px) — slider + input angka. */
+function SizeFields({ node }: { node: ComponentNode }) {
+  const { t } = useTranslate('editor');
+  const { updateComponentProps } = useEditor();
+  const { width, height } = node.props ?? {};
+
+  return (
+    <>
+      <SectionLabel>{t('fields.sectionSize')}</SectionLabel>
+      <SliderField
+        label={t('fields.width')}
+        value={typeof width === 'number' ? width : 0}
+        min={0}
+        max={800}
+        step={1}
+        unit="px"
+        onChange={(v) => updateComponentProps(node.id, { width: v })}
+      />
+      <SliderField
+        label={t('fields.height')}
+        value={typeof height === 'number' ? height : 0}
+        min={0}
+        max={600}
+        step={1}
+        unit="px"
+        onChange={(v) => updateComponentProps(node.id, { height: v })}
+      />
+    </>
+  );
+}
+
 // ----------------------------------------------------------------------
+
+/** Control ikon & preset untuk button — ala Carrd (WA + Globe link).
+ *  Preset mengisi href otomatis dari nomor/pesan; user tetap bisa edit manual. */
+function ButtonIconAndPresetFields({ node }: { node: ComponentNode }) {
+  const { t } = useTranslate('editor');
+  const { updateComponentProps } = useEditor();
+  const props = node.props ?? {};
+  const set = (partial: Record<string, unknown>) => updateComponentProps(node.id, partial as never);
+
+  const [preset, setPreset] = useState(presetFromHref(props.href ?? ''));
+  const [waPhone, setWaPhone] = useState(extractWaPhone(props.href ?? ''));
+  const [waMessage, setWaMessage] = useState(extractWaText(props.href ?? ''));
+
+  // Regenerasi href saat user mengetik nomor/pesan (hanya untuk preset WA aktif).
+  useEffect(() => {
+    if (preset !== 'whatsapp') return;
+    const phone = waPhone.replace(/[^0-9]/g, '');
+    const text = waMessage.trim();
+    const query = text ? `&text=${encodeURIComponent(text)}` : '';
+    set({ href: `https://api.whatsapp.com/send/?phone=${phone}${query}` });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preset, waPhone, waMessage]);
+
+  const applyPreset = (next: string) => {
+    setPreset(next);
+    if (next === 'whatsapp') {
+      const phone = waPhone.replace(/[^0-9]/g, '');
+      const text = waMessage.trim();
+      const query = text ? `&text=${encodeURIComponent(text)}` : '';
+      set({
+        href: `https://api.whatsapp.com/send/?phone=${phone}${query}`,
+        icon: 'mdi:whatsapp',
+        iconPosition: 'right',
+      });
+    } else if (next === 'website') {
+      set({ href: 'https://', icon: 'ph:globe-bold', iconPosition: 'right' });
+    } else {
+      set({ href: '#', icon: '', iconPosition: 'left' });
+    }
+  };
+
+  return (
+    <>
+      <TextField
+        select
+        fullWidth
+        size="small"
+        label={t('fields.preset')}
+        value={preset}
+        onChange={(e) => applyPreset(e.target.value)}
+      >
+        {PRESET_OPTIONS.map((opt) => (
+          <MenuItem key={opt.value} value={opt.value}>
+            {t(opt.key)}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      {/* Input tambahan untuk preset WhatsApp */}
+      {preset === 'whatsapp' && (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <TextField
+            fullWidth
+            size="small"
+            label={t('fields.phone')}
+            value={waPhone}
+            onChange={(e) => setWaPhone(e.target.value)}
+            helperText={t('preset.waHelper')}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            label={t('fields.waMessage')}
+            value={waMessage}
+            onChange={(e) => setWaMessage(e.target.value)}
+          />
+        </Box>
+      )}
+
+      <TextField
+        select
+        fullWidth
+        size="small"
+        label={t('fields.icon')}
+        value={props.icon ?? ''}
+        onChange={(e) => set({ icon: e.target.value })}
+      >
+        {BUTTON_ICON_OPTIONS.map((opt) => (
+          <MenuItem key={opt.value} value={opt.value}>
+            {t(opt.key)}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      {/* Posisi & ukuran ikon — hanya saat ikon terisi */}
+      {props.icon && (
+        <>
+          <TextField
+            select
+            fullWidth
+            size="small"
+            label={t('fields.iconPosition')}
+            value={props.iconPosition ?? 'left'}
+            onChange={(e) => set({ iconPosition: e.target.value as 'left' | 'right' })}
+          >
+            {ICON_POSITION_OPTIONS.map((opt) => (
+              <MenuItem key={opt.value} value={opt.value}>
+                {t(opt.key)}
+              </MenuItem>
+            ))}
+          </TextField>
+          <SliderField
+            label={t('fields.iconSize')}
+            value={props.iconSize ?? 18}
+            min={12}
+            max={32}
+            step={1}
+            unit="px"
+            onChange={(v) => set({ iconSize: v })}
+          />
+        </>
+      )}
+    </>
+  );
+}
+
+/** Deteksi preset dari href (untuk menampilkan nilai select yang sesuai). */
+function presetFromHref(href: string): string {
+  if (href.includes('api.whatsapp.com/send/?phone=')) return 'whatsapp';
+  if (href.startsWith('http')) return 'website';
+  return 'none';
+}
+
+/** Ekstrak nomor dari href WA. */
+function extractWaPhone(href: string): string {
+  const m = href.match(/phone=([^&]+)/);
+  return m ? decodeURIComponent(m[1]) : '';
+}
+
+/** Ekstrak pesan (text) dari href WA. */
+function extractWaText(href: string): string {
+  const m = href.match(/text=([^&]+)/);
+  return m ? decodeURIComponent(m[1]) : '';
+}
 
 /** Form properti per tipe komponen — semua perubahan langsung update state (live). */
 export function PropertyFields({ node }: { node: ComponentNode }) {
@@ -199,6 +396,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
           />
           <OpacityField node={node} />
           <BorderFields node={node} />
+          <SizeFields node={node} />
         </Box>
       );
 
@@ -223,6 +421,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
           />
           <OpacityField node={node} />
           <BorderFields node={node} />
+          <SizeFields node={node} />
         </Box>
       );
 
@@ -244,6 +443,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             onChange={(e) => set({ href: e.target.value })}
             helperText={t('fields.hrefHelper')}
           />
+          <ButtonIconAndPresetFields node={node} />
           <TextField
             select
             fullWidth
@@ -267,7 +467,8 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
           <BgOpacityField node={node} />
           <OpacityField node={node} />
           <BorderFields node={node} />
-          <SectionLabel>{t('fields.sectionSize')}</SectionLabel>
+          <SizeFields node={node} />
+          <SectionLabel>{t('fields.sectionPadding')}</SectionLabel>
           <SliderField
             label={t('fields.padding')}
             value={props.padding ?? 0}
@@ -341,7 +542,8 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
           )}
           <OpacityField node={node} />
           <BorderFields node={node} />
-          <SectionLabel>{t('fields.sectionSize')}</SectionLabel>
+          <SizeFields node={node} />
+          <SectionLabel>{t('fields.sectionPadding')}</SectionLabel>
           <SliderField
             label={t('fields.padding')}
             value={props.padding ?? 0}
@@ -358,6 +560,16 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
     case 'container':
       return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <SectionLabel>{t('fields.sectionColor')}</SectionLabel>
+          {/* Warna latar container + fade (alpha). bgColor baru; fallback
+              ke bgcolor lama bila belum diset. */}
+          <ColorFieldWithAlpha
+            label={t('fields.bgColor')}
+            value={props.bgColor ?? '#ffffff'}
+            alpha={props.bgOpacity ?? 100}
+            onAlphaChange={(alpha) => set({ bgOpacity: alpha })}
+            onChange={(color) => set({ bgColor: color })}
+          />
           <TextField
             select
             fullWidth
@@ -398,6 +610,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             />
           )}
           <SectionLabel>{t('fields.sectionLayout')}</SectionLabel>
+          <AlignSelect node={node} />
           <SliderField
             label={t('fields.gap')}
             value={props.gap ?? 12}
@@ -409,7 +622,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
           />
           <SliderField
             label={t('fields.padding')}
-            value={props.padding ?? 0}
+            value={props.padding ?? 16}
             min={0}
             max={100}
             step={1}
@@ -417,10 +630,9 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             onChange={(v) => set({ padding: v })}
             // helperText={t('fields.paddingHelper')}
           />
-          <SectionLabel>{t('fields.sectionColor')}</SectionLabel>
-          <BgOpacityField node={node} />
           <OpacityField node={node} />
           <BorderFields node={node} />
+          <SizeFields node={node} />
         </Box>
       );
 
@@ -447,6 +659,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             onChange={(color) => set({ borderColor: color })}
           />
           <OpacityField node={node} />
+          <SizeFields node={node} />
         </Box>
       );
 

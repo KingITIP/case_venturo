@@ -12,9 +12,12 @@ export const defaultPropsByType: Record<EditorComponentType, ComponentProps> = {
     label: 'Tombol',
     href: '#',
     variant: 'filled',
-    color: '#000000',
+    color: '#00a76f',
     bgOpacity: 100,
     opacity: 100,
+    icon: '',
+    iconPosition: 'left',
+    iconSize: 18,
   },
   image: { src: undefined, alt: 'Gambar', ratio: '16:9', opacity: 100 },
   container: { bgcolor: 'transparent', bgOpacity: 100, opacity: 100, gap: 12, padding: 16 },
@@ -38,7 +41,18 @@ export const dummyTemplateDefinitions: Record<string, ComponentNode[]> = {
       },
     },
     { id: 'c-3', type: 'image', props: { src: undefined, alt: 'Foto profil', ratio: '1:1' } },
-    { id: 'c-4', type: 'button', props: { label: 'Hubungi Saya', href: '#', variant: 'filled' } },
+    {
+      id: 'c-4',
+      type: 'button',
+      props: {
+        label: 'Hubungi Saya',
+        href: 'https://api.whatsapp.com/send/?phone=628128043814&text=Halo%20Andi',
+        variant: 'filled',
+        icon: 'mdi:whatsapp',
+        iconPosition: 'right',
+        iconSize: 18,
+      },
+    },
   ],
   'dummy-landing-1': [
     {

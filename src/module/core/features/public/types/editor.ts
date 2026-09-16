@@ -52,8 +52,22 @@ export type ComponentProps = {
   opacity?: number;
   /** Transparansi latar elemen (0–100) — button/container */
   bgOpacity?: number;
+  /** Warna latar container (hex) — bila diisi, dipakai sebagai background
+   *  container (dengan bgOpacity sebagai fade). Menggantikan bgcolor lama
+   *  ('transparent' | 'muted'). */
+  bgColor?: string;
   /** Jarak antar child (px) — khusus container */
   gap?: number;
+  /** Ikon pada button (nama Iconify, mis. 'mdi:whatsapp'). ''/undefined = tanpa ikon */
+  icon?: string;
+  /** Posisi ikon button — kiri (default) atau kanan */
+  iconPosition?: 'left' | 'right';
+  /** Ukuran ikon button (px), default 18 */
+  iconSize?: number;
+  /** Lebar elemen (px) — default auto/100% mengikuti konten */
+  width?: number;
+  /** Tinggi elemen (px) — default auto */
+  height?: number;
 };
 
 export type ComponentNode = {
@@ -103,6 +117,12 @@ export type PageSettings = {
   gradientAngle?: number;
   /** Background fullscreen menempel (fixed) — tidak ikut scroll */
   bgFixed?: boolean;
+  /** Warna kertas PAGE (hex) — terpisah dari background fullscreen */
+  paperColor?: string;
+  /** Transparansi kertas page 0–100 (100 = solid, 0 = transparan penuh) */
+  paperOpacity?: number;
+  /** Efek bayangan (shadow) pada kertas page — true = ada shadow */
+  paperShadow?: boolean;
 };
 
 export const DEFAULT_PAGE_SETTINGS: PageSettings = {
@@ -119,6 +139,9 @@ export const DEFAULT_PAGE_SETTINGS: PageSettings = {
   gradientTo: '#e0e0e0',
   gradientAngle: 135,
   bgFixed: true,
+  paperColor: '#ffffff',
+  paperOpacity: 100,
+  paperShadow: true,
 };
 
 export type EditorState = {

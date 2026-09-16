@@ -1,4 +1,5 @@
 import type { ComponentNode, ComponentProps } from '../types/editor';
+import type { IconifyName } from 'src/shared/ui/iconify/register-icons';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -10,6 +11,7 @@ import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
 import { defaultPropsByType } from '../data/editor';
+import { fromHexWithAlpha } from '../lib/page-style';
 
 // ----------------------------------------------------------------------
 
@@ -72,6 +74,8 @@ export function ComponentRenderer({
             textAlign: alignMap[def.align ?? 'left'],
             fontWeight: 700,
             color: def.color || '#000000',
+            ...(def.width ? { width: def.width } : {}),
+            ...(def.height ? { height: def.height } : {}),
             ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
             ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
             ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
@@ -89,6 +93,8 @@ export function ComponentRenderer({
             textAlign: alignMap[def.align ?? 'left'],
             color: def.color || '#000000',
             maxWidth: 640,
+            ...(def.width ? { width: def.width } : {}),
+            ...(def.height ? { height: def.height } : {}),
             ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
             ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
             ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
@@ -98,7 +104,28 @@ export function ComponentRenderer({
         </Typography>
       );
 
-    case 'button':
+    case 'button': {
+      const buttonIcon = def.icon ? (
+        <Iconify
+          icon={def.icon as IconifyName}
+          width={def.iconSize ?? 18}
+          style={{ display: 'inline-flex', flexShrink: 0 }}
+        />
+      ) : null;
+
+      const buttonContent =
+        def.iconPosition === 'right' ? (
+          <>
+            <span>{def.label || t('renderer.placeholder.button')}</span>
+            {buttonIcon}
+          </>
+        ) : (
+          <>
+            {buttonIcon}
+            <span>{def.label || t('renderer.placeholder.button')}</span>
+          </>
+        );
+
       return def.variant === 'link' ? (
         <Typography
           component="a"
@@ -108,14 +135,18 @@ export function ComponentRenderer({
           sx={{
             color: def.color || 'primary.main',
             textAlign: alignMap[def.align ?? 'left'],
-            display: 'inline-block',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 1,
             pointerEvents: preview ? 'auto' : 'none',
+            ...(def.width ? { width: def.width } : {}),
+            ...(def.height ? { height: def.height } : {}),
             ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
             ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
             ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
           }}
         >
-          {def.label || t('renderer.placeholder.button')}
+          {buttonContent}
         </Typography>
       ) : (
         <Box sx={{ textAlign: alignMap[def.align ?? 'left'] }}>
@@ -129,10 +160,15 @@ export function ComponentRenderer({
               pointerEvents: preview ? 'auto' : 'none',
               textTransform: 'none',
               borderRadius: 1.5,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 1,
+              ...(def.width ? { width: def.width } : {}),
+              ...(def.height ? { height: def.height, lineHeight: `${def.height}px`, py: 0 } : {}),
               ...(def.color
                 ? {
                     bgcolor: def.variant === 'outline' ? 'transparent' : def.color,
-                    color: '#fff',
+                    color: def.variant === 'outline' ? def.color : '#fff',
                     borderColor: def.color,
                   }
                 : {}),
@@ -145,10 +181,11 @@ export function ComponentRenderer({
               ...(elementOpacity(def) !== undefined ? { opacity: elementOpacity(def) } : {}),
             }}
           >
-            {def.label || t('renderer.placeholder.button')}
+            {buttonContent}
           </Button>
         </Box>
       );
+    }
 
     case 'image': {
       // Gambar dengan frame: border + padding (jarak border→gambar) + shape (rectangle/circle) + corner radius
@@ -159,6 +196,8 @@ export function ComponentRenderer({
           sx={{
             width: '100%',
             maxWidth: 640,
+            ...(def.width ? { width: def.width, maxWidth: def.width } : {}),
+            ...(def.height ? { height: def.height } : {}),
             borderRadius: radius,
             ...(hasBorder ? { ...borderStyle(def) } : {}),
             ...(hasBorder ? { p: framePadding(def) } : {}),
@@ -188,18 +227,26 @@ export function ComponentRenderer({
       );
     }
 
-    case 'container':
+    case 'container': {
+      // Warna latar + fade: bgColor (hex) + bgOpacity (0-100) → rgba.
+      // Bila bgColor tidak ada, fallback ke bgcolor lama ('transparent'|'muted').
+      let bgcolor: string | undefined;
+      if (def.bgColor) {
+        const alpha = Math.min(100, Math.max(0, def.bgOpacity ?? 100)) / 100;
+        bgcolor = fromHexWithAlpha(def.bgColor, alpha);
+      } else if (def.bgcolor === 'muted') {
+        bgcolor = 'background.neutral';
+      }
       return (
         <Box
           sx={{
             width: '100%',
+            ...(def.width ? { width: def.width } : {}),
+            ...(def.height ? { height: def.height } : {}),
             py: 3,
             px: 3,
             borderRadius: frameRadius(def.shape, def.cornerRadius),
-            bgcolor: def.bgcolor === 'muted' ? 'background.neutral' : 'transparent',
-            ...(def.bgOpacity !== undefined && def.bgOpacity < 100
-              ? { bgcolor: `rgba(0, 0, 0, ${(def.bgOpacity / 100) * 0.08})` }
-              : {}),
+            bgcolor: bgcolor ?? 'transparent',
             ...(def.borderColor || def.borderWidth ? borderStyle(def) : {}),
             border: !def.borderColor && !def.borderWidth ? '1px dashed' : undefined,
             borderColor: !def.borderColor && !def.borderWidth ? 'divider' : undefined,
@@ -241,6 +288,7 @@ export function ComponentRenderer({
           )}
         </Box>
       );
+    }
 
     case 'divider':
       return (
@@ -249,6 +297,7 @@ export function ComponentRenderer({
           sx={{
             borderBottomWidth: def.thickness === 'thin' ? 1 : 2,
             borderColor: def.borderColor || 'divider',
+            ...(def.width ? { width: def.width } : {}),
             my: 1,
           }}
         />
