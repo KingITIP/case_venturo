@@ -9,9 +9,9 @@ import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
 import { CanvasContent } from '../../renderer/canvas-content';
-import { pageFullBackgroundStyle } from '../../lib/page-style';
 import { useEditorShortcuts } from '../../hooks/use-editor-shortcuts';
 import { useEditor, useEditorState } from '../../store/editor-provider';
+import { pageBackgroundStyle, pageFullBackgroundStyle } from '../../lib/page-style';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +40,20 @@ export function EditorCanvas() {
   const deviceWidth = DEVICE_WIDTHS[page.device] ?? '100%';
   const isBgFixed = page.bgFixed !== false;
 
-  // Klik area kosong = pilih halaman (bukan clear). Klik di luar paper (scroll area) = clear.
+  const pageBg = pageBackgroundStyle(page);
+
+  // Klik area kosong / background = pilih halaman (bukan clear). Komponen
+  // di dalam page berhenti propagasi sendiri (stopPropagation di frame).
+  // Konsisten dengan Carrd: background adalah bagian dari page.
+  const handleCanvasClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement;
+    const isBgLayer = target.getAttribute?.('data-bg-layer') === 'true';
+    if (isBgLayer) {
+      event.stopPropagation();
+    }
+    select('page');
+  };
+
   const handlePaperClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     select('page');
@@ -50,22 +63,50 @@ export function EditorCanvas() {
     <Box
       component="main"
       aria-label={t('canvas.pageLabel')}
-      onClick={clearSelection}
+      onClick={handleCanvasClick}
       sx={{
         flex: '1 1 auto',
         minWidth: 0,
         height: '100%',
         overflowY: 'auto',
         position: 'relative',
-        bgcolor: 'background.neutral',
-        backgroundImage: 'radial-gradient(circle, rgba(120,120,120,0.15) 1px, transparent 1px)',
-        backgroundSize: '20px 20px',
+        // Membuat <main> menjadi containing block utk position:fixed anak
+        // (bg layer & scrim) — sehingga lebar/tinggi mereka = area main saja,
+        // TIDAK menutupi sidebar kiri/kanan (property panel).
+        transform: 'translateZ(0)',
+        // Workspace gelap ala builder (Carrd/Craft): menu & page kontras jelas.
+        bgcolor: '#16181d',
+        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)',
+        backgroundSize: '22px 22px',
       }}
     >
-      {/* Lapisan background penuh — gambar/warna/gradient halaman, FIXED di belakang */}
-      <Box aria-hidden sx={{ ...pageFullBackgroundStyle(page, isBgFixed) }} />
+      {/* Lapisan background penuh — image/gradient/fade halaman, FIXED di belakang.
+          Ini "background" yang diedit via Page Settings (kunci: data-bg-layer). */}
+      <Box
+        aria-hidden="true"
+        data-bg-layer="true"
+        sx={{ ...pageFullBackgroundStyle(page, isBgFixed) }}
+      />
 
-      {/* Konten halaman — Paper di tengah, di atas background */}
+      {/* Scrim workspace — menggelapkan area di LUAR page, menjaga editor tetap
+          terbaca meski bg layer terang/putih. Tidak menghalangi klik (pointer-events none).
+          width/height 100% (bukan 100vw) karena main adalah containing block — jadi
+          hanya menutupi area canvas, TIDAK sidebar kiri/kanan. */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          position: isBgFixed ? 'fixed' : 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+          bgcolor: 'rgba(10, 12, 16, 0.62)',
+        }}
+      />
+
+      {/* Konten halaman — Paper "kertas" di tengah, WYSIWYG dengan page settings */}
       <Box sx={{ position: 'relative', zIndex: 1, p: { xs: 2, md: 4 } }}>
         <Paper
           variant="outlined"
@@ -75,7 +116,12 @@ export function EditorCanvas() {
             mx: 'auto',
             minHeight: '70vh',
             p: `${page.padding}px`,
-            bgcolor: 'transparent',
+            // Kertas = warna latar halaman (default putih). Gradient/image juga
+            // dirender di dalam page agar WYSIWYG dengan bg fullscreen.
+            bgcolor: pageBg.backgroundColor,
+            backgroundImage: pageBg.backgroundImage,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
             border: `${page.borderWidth}px solid ${page.borderColor}`,
             boxShadow: (theme) => theme.shadows[8],
             display: 'flex',

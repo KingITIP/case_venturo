@@ -33,7 +33,8 @@ export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
         bgcolor: 'background.default',
       }}
     >
-      {/* Kontrol kecil untuk kembali ke editor */}
+      {/* Kontrol kecil untuk kembali ke editor — bg solid + zIndex agar tetap
+          terlihat jelas di atas background halaman (yang bisa putih penuh). */}
       <Box
         component="header"
         sx={{
@@ -44,6 +45,9 @@ export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
           py: 1,
           borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           bgcolor: 'background.paper',
+          zIndex: 20,
+          position: 'relative',
+          boxShadow: (theme) => theme.shadows[2],
         }}
       >
         <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
@@ -51,7 +55,8 @@ export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
         </Typography>
         <Button
           size="small"
-          variant="outlined"
+          variant="contained"
+          color="primary"
           startIcon={<Iconify icon="solar:pen-bold" width={16} />}
           onClick={onExit}
         >

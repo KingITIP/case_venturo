@@ -1,6 +1,7 @@
 {
   "meta": {
-    "title": "Editor"
+    "title": "Editor",
+    "publishTitle": "Local Publish"
   },
   "topbar": {
     "back": "Back",
@@ -14,7 +15,8 @@
     "redo": "Redo",
     "togglePalette": "Open components panel",
     "toggleProperties": "Open properties panel",
-    "comingSoon": "This feature will be available in a later iteration."
+    "comingSoon": "This feature will be available in a later iteration.",
+    "addElement": "Add element"
   },
   "properties": {
     "title": "Properties",
@@ -151,5 +153,15 @@
     "unknownId": "Template not found, starting with a blank page.",
     "saveSuccess": "Saved! Your changes are safe in this browser.",
     "saveError": "Failed to save. Check your browser storage."
+  },
+  "publish": {
+    "localBadge": "Local Publish",
+    "viewLink": "View /publish",
+    "emptyTitle": "No saved page yet",
+    "emptyDescription": "Open the editor, build a page, then click Save.",
+    "toBuild": "Start Building",
+    "updatedAt": "Last saved: {{time}}",
+    "toEditor": "Open Editor",
+    "refresh": "Refresh"
   }
 }

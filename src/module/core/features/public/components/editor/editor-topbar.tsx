@@ -1,12 +1,18 @@
 import type { DeviceSize } from '../../types/editor';
 import type { IconifyName } from 'src/shared/ui/iconify/register-icons';
 
+import { useState } from 'react';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
+import Popover from '@mui/material/Popover';
+import MenuList from '@mui/material/MenuList';
+import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
@@ -15,6 +21,11 @@ import { RouterLink } from 'src/routes/components';
 
 import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
+
+import { findNode } from '../../store/editor-context';
+import { defaultPropsByType } from '../../data/editor';
+import { editorPaletteItems } from '../../types/editor';
+import { useEditor } from '../../store/editor-provider';
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +60,65 @@ function DeviceToggle({
         </ToggleButton>
       ))}
     </ToggleButtonGroup>
+  );
+}
+
+// ----------------------------------------------------------------------
+
+/** Menu "+" di topbar — tambah elemen baru dari mana saja (desktop/mobile).
+ *  Perilaku sama dengan palette kiri: jika container terpilih, elemen baru
+ *  menjadi child container. */
+function AddElementMenu() {
+  const { t } = useTranslate('editor');
+  const { addComponent, addChildComponent, components, selectedId } = useEditor();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (type: (typeof editorPaletteItems)[number]['type']) => {
+    const selected = selectedId ? findNode(components, selectedId) : null;
+    if (selected?.type === 'container') {
+      addChildComponent(selected.id, type, defaultPropsByType[type]);
+    } else {
+      addComponent(type, defaultPropsByType[type]);
+    }
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <Tooltip title={t('topbar.addElement')}>
+        <IconButton
+          onClick={(e) => setAnchorEl(e.currentTarget)}
+          aria-label={t('topbar.addElement')}
+          sx={{
+            bgcolor: 'primary.main',
+            color: 'primary.contrastText',
+            '&:hover': { bgcolor: 'primary.dark' },
+          }}
+        >
+          <Iconify icon="solar:add-circle-bold" width={22} />
+        </IconButton>
+      </Tooltip>
+
+      <Popover
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        slotProps={{ paper: { sx: { width: 220, p: 1, mt: 1 } } }}
+      >
+        <MenuList dense>
+          {editorPaletteItems.map((item) => (
+            <MenuItem key={item.type} onClick={() => handleClick(item.type)} sx={{ gap: 1.5 }}>
+              <ListItemIcon>
+                <Iconify icon={item.icon} width={20} />
+              </ListItemIcon>
+              <Typography variant="body2">{t(item.labelKey)}</Typography>
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Popover>
+    </>
   );
 }
 
@@ -132,10 +202,24 @@ export function EditorTopbar({
 
       {/* Right: actions */}
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+        <AddElementMenu />
+
         <Tooltip title={t('topbar.undo')}>
           <span>
             <IconButton disabled aria-label={t('topbar.undo')}>
               <Iconify icon="solar:restart-bold" width={20} sx={{ transform: 'scaleX(-1)' }} />
+            </IconButton>
+          </span>
+        </Tooltip>
+
+        <Tooltip title={t('publish.viewLink')}>
+          <span>
+            <IconButton
+              component={RouterLink}
+              href={paths.public.publish}
+              aria-label={t('publish.viewLink')}
+            >
+              <Iconify icon="solar:export-bold" width={19} />
             </IconButton>
           </span>
         </Tooltip>

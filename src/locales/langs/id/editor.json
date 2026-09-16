@@ -1,6 +1,7 @@
 {
   "meta": {
-    "title": "Editor"
+    "title": "Editor",
+    "publishTitle": "Publish Lokal"
   },
   "topbar": {
     "back": "Kembali",
@@ -14,7 +15,8 @@
     "redo": "Redo",
     "togglePalette": "Buka panel komponen",
     "toggleProperties": "Buka panel properti",
-    "comingSoon": "Fitur ini akan tersedia di iterasi berikutnya."
+    "comingSoon": "Fitur ini akan tersedia di iterasi berikutnya.",
+    "addElement": "Tambah elemen"
   },
   "properties": {
     "title": "Properti",
@@ -151,5 +153,15 @@
     "unknownId": "Template tidak ditemukan, memulai dengan halaman kosong.",
     "saveSuccess": "Tersimpan! Perubahanmu aman di browser ini.",
     "saveError": "Gagal menyimpan. Periksa penyimpanan browser."
+  },
+  "publish": {
+    "localBadge": "Publish Lokal",
+    "viewLink": "Lihat /publish",
+    "emptyTitle": "Belum ada halaman yang disimpan",
+    "emptyDescription": "Buka editor, bangun halaman, lalu klik Save.",
+    "toBuild": "Mulai Membangun",
+    "updatedAt": "Terakhir disimpan: {{time}}",
+    "toEditor": "Buka Editor",
+    "refresh": "Muat Ulang"
   }
 }

@@ -83,8 +83,10 @@ export function pageFullBackgroundStyle(page: PageSettings, fixed?: boolean): Re
     position: fixed ? 'fixed' : 'absolute',
     top: 0,
     left: 0,
-    width: '100vw',
-    height: '100vh',
+    // 100% (bukan 100vw/100vh): elemen ini hidup di dalam containing block
+    // (canvas main / wrapper preview) sehingga tidak menutupi sidebar editor.
+    width: '100%',
+    height: '100%',
     zIndex: 0,
     pointerEvents: 'none',
     backgroundImage: bg.backgroundImage,
