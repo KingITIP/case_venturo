@@ -1,14 +1,16 @@
 import type { ComponentNode } from '../../../types/editor';
 
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 
 import { useTranslate } from 'src/locales';
+import { Iconify } from 'src/shared/ui/iconify';
 
-import { AlignSelect } from './shared-fields';
 import { ColorField } from './page-settings-panel';
 import { useEditor } from '../../../store/editor-provider';
+import { AlignSelect, SectionLabel } from './shared-fields';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +41,56 @@ const RATIO_OPTIONS = [
   { value: '4:3', key: 'fields.ratioClassic' },
   { value: '1:1', key: 'fields.ratioSquare' },
 ] as const;
+
+const SHAPE_OPTIONS = [
+  { value: 'rectangle', key: 'fields.shapeRectangle' },
+  { value: 'circle', key: 'fields.shapeCircle' },
+] as const;
+
+// ----------------------------------------------------------------------
+
+/** Field upload gambar dari file lokal → data URL (disimpan di props.src). */
+function ImageUploadField({ node }: { node: ComponentNode }) {
+  const { t } = useTranslate('editor');
+  const { updateComponentProps } = useEditor();
+
+  const handleFile = (file?: File | null) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        updateComponentProps(node.id, { src: reader.result });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <Box>
+      <input
+        accept="image/*"
+        id={`img-upload-${node.id}`}
+        type="file"
+        style={{ display: 'none' }}
+        onChange={(e) => {
+          handleFile(e.target.files?.[0]);
+          e.target.value = '';
+        }}
+      />
+      <label htmlFor={`img-upload-${node.id}`}>
+        <Button
+          component="span"
+          variant="outlined"
+          size="small"
+          fullWidth
+          startIcon={<Iconify icon="solar:download-bold" width={16} />}
+        >
+          {t('fields.uploadImage')}
+        </Button>
+      </label>
+    </Box>
+  );
+}
 
 // ----------------------------------------------------------------------
 
@@ -80,6 +132,20 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             value={props.color || '#000000'}
             onChange={(color) => set({ color })}
           />
+          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
+          <ColorField
+            label={t('fields.borderColor')}
+            value={props.borderColor || '#e0e0e0'}
+            onChange={(color) => set({ borderColor: color })}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            type="number"
+            label={t('fields.borderWidth')}
+            value={props.borderWidth ?? 1}
+            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
+          />
         </Box>
       );
 
@@ -101,6 +167,20 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             value={props.color || '#000000'}
             onChange={(color) => set({ color })}
           />
+          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
+          <ColorField
+            label={t('fields.borderColor')}
+            value={props.borderColor || '#e0e0e0'}
+            onChange={(color) => set({ borderColor: color })}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            type="number"
+            label={t('fields.borderWidth')}
+            value={props.borderWidth ?? 1}
+            onChange={(e) => set({ borderWidth: Number(e.target.value) })}
+          />
         </Box>
       );
 
@@ -120,6 +200,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             label={t('fields.href')}
             value={props.href ?? '#'}
             onChange={(e) => set({ href: e.target.value })}
+            helperText={t('fields.hrefHelper')}
           />
           <TextField
             select
@@ -140,6 +221,7 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             value={props.color || '#00a76f'}
             onChange={(color) => set({ color })}
           />
+          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
           <ColorField
             label={t('fields.borderColor')}
             value={props.borderColor || '#e0e0e0'}
@@ -153,12 +235,22 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             value={props.borderWidth ?? 1}
             onChange={(e) => set({ borderWidth: Number(e.target.value) })}
           />
+          <TextField
+            fullWidth
+            size="small"
+            type="number"
+            label={t('fields.padding')}
+            value={props.padding ?? 0}
+            onChange={(e) => set({ padding: Number(e.target.value) })}
+            helperText={t('fields.paddingHelper')}
+          />
         </Box>
       );
 
     case 'image':
       return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <ImageUploadField node={node} />
           <TextField
             fullWidth
             size="small"
@@ -188,6 +280,31 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
+          <TextField
+            select
+            fullWidth
+            size="small"
+            label={t('fields.shape')}
+            value={props.shape ?? 'rectangle'}
+            onChange={(e) => set({ shape: e.target.value as 'rectangle' | 'circle' })}
+          >
+            {SHAPE_OPTIONS.map((opt) => (
+              <MenuItem key={opt.value} value={opt.value}>
+                {t(opt.key)}
+              </MenuItem>
+            ))}
+          </TextField>
+          {props.shape !== 'circle' && (
+            <TextField
+              fullWidth
+              size="small"
+              type="number"
+              label={t('fields.cornerRadius')}
+              value={props.cornerRadius ?? 0}
+              onChange={(e) => set({ cornerRadius: Number(e.target.value) })}
+            />
+          )}
+          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
           <ColorField
             label={t('fields.borderColor')}
             value={props.borderColor || '#e0e0e0'}
@@ -200,6 +317,15 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             label={t('fields.borderWidth')}
             value={props.borderWidth ?? 1}
             onChange={(e) => set({ borderWidth: Number(e.target.value) })}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            type="number"
+            label={t('fields.padding')}
+            value={props.padding ?? 0}
+            onChange={(e) => set({ padding: Number(e.target.value) })}
+            helperText={t('fields.paddingImageHelper')}
           />
         </Box>
       );
@@ -221,6 +347,31 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
               </MenuItem>
             ))}
           </TextField>
+          <TextField
+            select
+            fullWidth
+            size="small"
+            label={t('fields.shape')}
+            value={props.shape ?? 'rectangle'}
+            onChange={(e) => set({ shape: e.target.value as 'rectangle' | 'circle' })}
+          >
+            {SHAPE_OPTIONS.map((opt) => (
+              <MenuItem key={opt.value} value={opt.value}>
+                {t(opt.key)}
+              </MenuItem>
+            ))}
+          </TextField>
+          {props.shape !== 'circle' && (
+            <TextField
+              fullWidth
+              size="small"
+              type="number"
+              label={t('fields.cornerRadius')}
+              value={props.cornerRadius ?? 0}
+              onChange={(e) => set({ cornerRadius: Number(e.target.value) })}
+            />
+          )}
+          <SectionLabel>{t('fields.sectionBorder')}</SectionLabel>
           <ColorField
             label={t('fields.borderColor')}
             value={props.borderColor || '#e0e0e0'}
@@ -233,6 +384,15 @@ export function PropertyFields({ node }: { node: ComponentNode }) {
             label={t('fields.borderWidth')}
             value={props.borderWidth ?? 1}
             onChange={(e) => set({ borderWidth: Number(e.target.value) })}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            type="number"
+            label={t('fields.padding')}
+            value={props.padding ?? 0}
+            onChange={(e) => set({ padding: Number(e.target.value) })}
+            helperText={t('fields.paddingHelper')}
           />
         </Box>
       );

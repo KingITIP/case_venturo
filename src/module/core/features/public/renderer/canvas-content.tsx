@@ -32,7 +32,7 @@ export function CanvasContent({
     return (
       <Stack spacing={3} sx={{ width: '100%' }}>
         {components.map((node) => (
-          <ComponentRenderer key={node.id} node={node} />
+          <ComponentRenderer key={node.id} node={node} preview />
         ))}
       </Stack>
     );

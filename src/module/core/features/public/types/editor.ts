@@ -42,12 +42,26 @@ export type ComponentProps = {
   borderColor?: string;
   /** Ketebalan border (px) */
   borderWidth?: number;
+  /** Bentuk gambar/container: rectangle (default) atau circle */
+  shape?: 'rectangle' | 'circle';
+  /** Pembulatan sudut (px) — hanya untuk shape rectangle */
+  cornerRadius?: number;
+  /** Jarak antara border dan konten/gambar (px) */
+  padding?: number;
+  /** Transparansi keseluruhan elemen (0–100, 100 = solid) */
+  opacity?: number;
+  /** Transparansi latar elemen (0–100) — button/container */
+  bgOpacity?: number;
+  /** Jarak antar child (px) — khusus container */
+  gap?: number;
 };
 
 export type ComponentNode = {
   id: string;
   type: EditorComponentType;
   props?: ComponentProps;
+  /** Anak-anak komponen (khusus container — nested group) */
+  children?: ComponentNode[];
 };
 
 export type EditorMode = 'edit' | 'preview';
@@ -73,6 +87,22 @@ export type PageSettings = {
   padding: number;
   /** Ukuran perangkat aktif (preview & kanvas) */
   device: DeviceSize;
+  /** Gambar latar halaman (data URL dari upload lokal) */
+  bgImage?: string;
+  /** Fade/overlay warna di atas latar (hex) */
+  fadeColor?: string;
+  /** Opasitas fade (0-100) */
+  fadeOpacity?: number;
+  /** Gradient aktif */
+  gradientEnabled?: boolean;
+  /** Warna awal gradient (hex) */
+  gradientFrom?: string;
+  /** Warna akhir gradient (hex) */
+  gradientTo?: string;
+  /** Sudut gradient (derajat) */
+  gradientAngle?: number;
+  /** Background halaman menempel (position: fixed) — default true */
+  bgFixed?: boolean;
 };
 
 export const DEFAULT_PAGE_SETTINGS: PageSettings = {
@@ -82,6 +112,13 @@ export const DEFAULT_PAGE_SETTINGS: PageSettings = {
   maxWidth: 720,
   padding: 32,
   device: 'desktop',
+  fadeColor: '#000000',
+  fadeOpacity: 0,
+  gradientEnabled: false,
+  gradientFrom: '#ffffff',
+  gradientTo: '#e0e0e0',
+  gradientAngle: 135,
+  bgFixed: true,
 };
 
 export type EditorState = {

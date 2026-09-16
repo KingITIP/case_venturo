@@ -52,6 +52,7 @@
     "text": "Text",
     "label": "Label",
     "href": "Link (href)",
+    "hrefHelper": "Paste a URL (https://...). In preview, buttons open the link.",
     "src": "Image URL",
     "srcHelper": "Leave empty to use the default placeholder.",
     "alt": "Alternative text (alt)",
@@ -79,7 +80,16 @@
     "thicknessMedium": "Medium",
     "color": "Text color",
     "borderColor": "Border color",
-    "borderWidth": "Border width"
+    "borderWidth": "Border width",
+    "padding": "Padding",
+    "paddingHelper": "Space between border and content (px).",
+    "paddingImageHelper": "Space between the border and the image (px).",
+    "shape": "Shape",
+    "shapeRectangle": "Rectangle",
+    "shapeCircle": "Circle",
+    "cornerRadius": "Corner rounding",
+    "uploadImage": "Upload image from your device",
+    "sectionBorder": "Border"
   },
   "device": {
     "label": "Device size",
@@ -95,7 +105,16 @@
     "borderWidth": "Border width",
     "maxWidth": "Content max width",
     "padding": "Content padding",
-    "autoNote": "Click the page background to edit these settings"
+    "autoNote": "Click the page background to edit these settings",
+    "uploadBgImage": "Upload background image",
+    "removeBgImage": "Remove background image",
+    "gradientEnable": "Enable gradient",
+    "gradientFrom": "Gradient start color",
+    "gradientTo": "Gradient end color",
+    "gradientAngle": "Gradient angle",
+    "fadeEnable": "Enable color fade (overlay)",
+    "fadeColor": "Fade color",
+    "fadeOpacity": "Fade opacity"
   },
   "preview": {
     "header": "Page Preview",

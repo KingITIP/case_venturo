@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
+import { pageBackgroundStyle } from '../../lib/page-style';
 import { CanvasContent } from '../../renderer/canvas-content';
 import { useEditorShortcuts } from '../../hooks/use-editor-shortcuts';
 import { useEditor, useEditorState } from '../../store/editor-provider';
@@ -68,7 +69,8 @@ export function EditorCanvas() {
           mx: 'auto',
           minHeight: '70vh',
           p: `${page.padding}px`,
-          bgcolor: page.backgroundColor,
+          background: pageBackgroundStyle(page),
+          bgcolor: 'transparent',
           border: `${page.borderWidth}px solid ${page.borderColor}`,
           boxShadow: (theme) => theme.shadows[8],
           display: 'flex',

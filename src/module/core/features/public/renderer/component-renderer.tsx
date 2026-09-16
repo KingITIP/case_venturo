@@ -23,6 +23,17 @@ function borderStyle(def: { borderColor?: string; borderWidth?: number }) {
   return { border: `${width}px solid ${color === 'divider' ? 'divider' : color}` };
 }
 
+/** Padding frame (jarak border → konten). Default 0; dipakai elemen ber-border. */
+function framePadding(def: { padding?: number }): number | string {
+  return def.padding && def.padding > 0 ? def.padding : 0;
+}
+
+/** Border radius sesuai shape (circle = 50%, rectangle = cornerRadius px). */
+function frameRadius(shape: ComponentProps['shape'], cornerRadius?: number): number | string {
+  if (shape === 'circle') return '50%';
+  return cornerRadius && cornerRadius > 0 ? cornerRadius : 0;
+}
+
 function imagePlaceholderSrc() {
   // Data URI SVG abu-abu dengan ikon — offline-friendly
   return `data:image/svg+xml;utf8,${encodeURIComponent(
@@ -31,7 +42,14 @@ function imagePlaceholderSrc() {
 }
 
 /** Render satu node komponen menjadi tampilan halaman (WYSIWYG). */
-export function ComponentRenderer({ node }: { node: ComponentNode }) {
+export function ComponentRenderer({
+  node,
+  preview = false,
+}: {
+  node: ComponentNode;
+  /** true = mode preview/built (interactive: link tombol bisa diklik, bukan editing). */
+  preview?: boolean;
+}) {
   const { t } = useTranslate('editor');
   const { type, props = {} } = node;
   const def: ComponentProps & { [key: string]: any } = { ...defaultPropsByType[type], ...props };
@@ -46,6 +64,8 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
             textAlign: alignMap[def.align ?? 'left'],
             fontWeight: 700,
             color: def.color || '#000000',
+            ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
+            ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
           }}
         >
           {def.text || t('renderer.placeholder.heading')}
@@ -60,6 +80,8 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
             textAlign: alignMap[def.align ?? 'left'],
             color: def.color || '#000000',
             maxWidth: 640,
+            ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
+            ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
           }}
         >
           {def.text || t('renderer.placeholder.text')}
@@ -67,59 +89,82 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
       );
 
     case 'button':
-      return def.variant === 'link' ? (
-        <Typography
-          component="a"
-          href={def.href || '#'}
-          sx={{
-            color: def.color || 'primary.main',
-            textAlign: alignMap[def.align ?? 'left'],
-            display: 'inline-block',
-            pointerEvents: 'none',
-          }}
-        >
-          {def.label || t('renderer.placeholder.button')}
-        </Typography>
-      ) : (
-        <Box sx={{ textAlign: alignMap[def.align ?? 'left'] }}>
-          <Button
-            variant={def.variant === 'outline' ? 'outlined' : 'contained'}
-            href={def.href || '#'}
-            size="medium"
-            sx={{
-              pointerEvents: 'none',
-              textTransform: 'none',
-              borderRadius: 1.5,
-              ...(def.color ? { bgcolor: def.variant === 'outline' ? 'transparent' : def.color, color: '#fff', borderColor: def.color } : {}),
-            }}
-          >
-            {def.label || t('renderer.placeholder.button')}
-          </Button>
-        </Box>
-      );
+          return def.variant === 'link' ? (
+            <Typography
+              component="a"
+              href={def.href || '#'}
+              target={def.href && !def.href.startsWith('#') ? '_blank' : undefined}
+              rel="noopener noreferrer"
+              sx={{
+                color: def.color || 'primary.main',
+                textAlign: alignMap[def.align ?? 'left'],
+                display: 'inline-block',
+                pointerEvents: preview ? 'auto' : 'none',
+                ...(def.borderColor || def.borderWidth ? { ...borderStyle(def) } : {}),
+                ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
+              }}
+            >
+              {def.label || t('renderer.placeholder.button')}
+            </Typography>
+          ) : (
+            <Box sx={{ textAlign: alignMap[def.align ?? 'left'] }}>
+              <Button
+                variant={def.variant === 'outline' ? 'outlined' : 'contained'}
+                href={def.href || '#'}
+                target={def.href && !def.href.startsWith('#') ? '_blank' : undefined}
+                rel="noopener noreferrer"
+                size="medium"
+                sx={{
+                  pointerEvents: preview ? 'auto' : 'none',
+                  textTransform: 'none',
+                  borderRadius: 1.5,
+                  ...(def.color ? { bgcolor: def.variant === 'outline' ? 'transparent' : def.color, color: '#fff', borderColor: def.color } : {}),
+                  ...(def.borderColor || def.borderWidth
+                    ? { border: `${def.borderWidth ?? 1}px solid ${def.borderColor || 'divider'}`, p: framePadding(def) }
+                    : {}),
+                }}
+              >
+                {def.label || t('renderer.placeholder.button')}
+              </Button>
+            </Box>
+          );
 
-    case 'image':
+    case 'image': {
+      // Gambar dengan frame: border + padding (jarak border→gambar) + shape (rectangle/circle) + corner radius
+      const radius = frameRadius(def.shape, def.cornerRadius);
+      const hasBorder = Boolean(def.borderColor || def.borderWidth);
       return (
         <Box
-          component="img"
-          src={def.src || imagePlaceholderSrc()}
-          alt={def.alt || 'image'}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = imagePlaceholderSrc();
-          }}
           sx={{
             width: '100%',
             maxWidth: 640,
-            aspectRatio: def.ratio || '16:9',
-            objectFit: 'cover',
-            borderRadius: 1.5,
-            display: 'block',
+            borderRadius: radius,
+            ...(hasBorder ? { ...borderStyle(def) } : {}),
+            ...(hasBorder ? { p: framePadding(def) } : {}),
+            display: 'inline-block',
+            overflow: 'hidden',
             mx: 'auto',
             bgcolor: 'background.neutral',
-            ...(def.borderColor || def.borderWidth ? { ...borderStyle(def), borderRadius: 1.5 } : {}),
           }}
-        />
+        >
+          <Box
+            component="img"
+            src={def.src || imagePlaceholderSrc()}
+            alt={def.alt || 'image'}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = imagePlaceholderSrc();
+            }}
+            sx={{
+              display: 'block',
+              width: '100%',
+              aspectRatio: def.ratio || '16:9',
+              objectFit: 'cover',
+              borderRadius: radius,
+            }}
+          />
+        </Box>
       );
+    }
 
     case 'container':
       return (
@@ -128,11 +173,12 @@ export function ComponentRenderer({ node }: { node: ComponentNode }) {
             width: '100%',
             py: 3,
             px: 3,
-            borderRadius: 2,
+            borderRadius: frameRadius(def.shape, def.cornerRadius),
             bgcolor: def.bgcolor === 'muted' ? 'background.neutral' : 'transparent',
             ...(def.borderColor || def.borderWidth ? borderStyle(def) : {}),
             border: !def.borderColor && !def.borderWidth ? '1px dashed' : undefined,
             borderColor: !def.borderColor && !def.borderWidth ? 'divider' : undefined,
+            ...(def.borderColor || def.borderWidth ? { p: framePadding(def) } : {}),
           }}
         >
           <Stack spacing={1.5} sx={{ alignItems: alignMap[def.align ?? 'left'] }}>

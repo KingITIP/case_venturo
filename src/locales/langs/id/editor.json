@@ -52,6 +52,7 @@
     "text": "Teks",
     "label": "Label",
     "href": "Tautan (href)",
+    "hrefHelper": "Tempel URL (https://...). Saat pratinjau, tombol membuka tautan tersebut.",
     "src": "URL Gambar",
     "srcHelper": "Kosongkan untuk memakai placeholder default.",
     "alt": "Teks alternatif (alt)",
@@ -79,7 +80,16 @@
     "thicknessMedium": "Sedang",
     "color": "Warna teks",
     "borderColor": "Warna border",
-    "borderWidth": "Ketebalan border"
+    "borderWidth": "Ketebalan border",
+    "padding": "Padding",
+    "paddingHelper": "Jarak antara border dan konten (px).",
+    "paddingImageHelper": "Jarak antara border dan gambar (px).",
+    "shape": "Bentuk",
+    "shapeRectangle": "Persegi",
+    "shapeCircle": "Lingkaran",
+    "cornerRadius": "Pembulatan sudut",
+    "uploadImage": "Unggah gambar dari perangkat",
+    "sectionBorder": "Border"
   },
   "device": {
     "label": "Ukuran perangkat",
@@ -95,7 +105,16 @@
     "borderWidth": "Ketebalan border",
     "maxWidth": "Lebar maks. konten",
     "padding": "Padding konten",
-    "autoNote": "Klik latar halaman untuk mengubah pengaturan ini"
+    "autoNote": "Klik latar halaman untuk mengubah pengaturan ini",
+    "uploadBgImage": "Unggah gambar latar",
+    "removeBgImage": "Hapus gambar latar",
+    "gradientEnable": "Aktifkan gradient",
+    "gradientFrom": "Warna awal gradient",
+    "gradientTo": "Warna akhir gradient",
+    "gradientAngle": "Sudut gradient",
+    "fadeEnable": "Aktifkan fade warna (overlay)",
+    "fadeColor": "Warna fade",
+    "fadeOpacity": "Opasitas fade"
   },
   "preview": {
     "header": "Pratinjau Halaman",

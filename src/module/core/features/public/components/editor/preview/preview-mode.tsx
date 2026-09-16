@@ -8,6 +8,7 @@ import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/shared/ui/iconify';
 
 import { DEVICE_WIDTHS } from '../editor-canvas';
+import { pageBackgroundStyle } from '../../../lib/page-style';
 import { CanvasContent } from '../../../renderer/canvas-content';
 
 // ----------------------------------------------------------------------
@@ -66,7 +67,8 @@ export function PreviewMode({ components, page, onExit }: PreviewModeProps) {
             mx: 'auto',
             minHeight: '70vh',
             p: `${page.padding}px`,
-            bgcolor: page.backgroundColor,
+            background: pageBackgroundStyle(page),
+            bgcolor: 'transparent',
             border: `${page.borderWidth}px solid ${page.borderColor}`,
             boxShadow: (theme) => theme.shadows[4],
             borderRadius: 1,
